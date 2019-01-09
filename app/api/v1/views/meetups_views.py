@@ -47,3 +47,20 @@ class MeetupResource(Resource):
 
     def delete(self):
         pass
+
+
+class AllMeetupResource(Resource):
+    """Class to get all meetups created"""
+
+    def get(self):
+        """Method to get all upcoming meetups"""
+        meetup = meetup_view.get_all_meetups()
+        if not meetup:
+            return {
+                "status": 404,
+                "error": "No upcoming meetup yet"
+            }
+        return {
+            "status": 200,
+            "data": meetup
+        }

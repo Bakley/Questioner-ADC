@@ -24,3 +24,13 @@ class MeetupsModel:
         }
         self.db.append(payload)
         return payload
+
+    def get_all_meetups(self):
+        """Retrieves all upcoming meetups"""
+        return self.db
+
+    def get_a_specific_meetup(self, id):
+        """Retrieves a specific meetup"""
+        meetup = [new_meetup for new_meetup in self.db
+                  if new_meetup["id"] == id]
+        return meetup

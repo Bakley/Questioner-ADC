@@ -58,8 +58,8 @@ class User():
 
     def view(self):
         """Method to jsonify user objects"""
-        keys = ["firstname", "lastname", "othername",
-                "email", "phoneNumber", "username"]
+        keys = ["id", "firstname", "lastname", "othername",
+                "email", "phoneNumber", "username", "isAdmin"]
         return {key: getattr(self, keys) for key in keys}
 
     def validate_password(self, password):

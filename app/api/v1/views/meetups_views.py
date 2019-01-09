@@ -38,7 +38,7 @@ class MeetupResource(Resource):
         if not meetup:
             return {
                 "status": 404,
-                "error": "Meetup of id {} not found".format(id)
+                "error": "Meetup of id {} not found".format(meetup_id)
             }
         return {
             "status": 200,

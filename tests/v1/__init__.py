@@ -3,6 +3,8 @@ import unittest
 import json
 
 from app import create_app
+from app.auth.v1.models import database, User
+
 # from app.api.v1.models.question_models import QuestionModels
 # from app.api.v1.models.comments_models import CommentsModels
 # from app.api.v1.models.meetups_models import MeetupsModels
@@ -43,6 +45,16 @@ class BaseClassTest(unittest.TestCase):
             "isAdmin": False,
             "password": "Hello@254"
         }
+
+        self.user1 = User(
+            firstname="Derrick",
+            lastname="Jones",
+            othername="Jupiter",
+            email="derick@jones.com",
+            phoneNumber="078",
+            username="JonesD",
+            password="Hello@254"
+        )
 
         self.meetup = {
             "id": 1,

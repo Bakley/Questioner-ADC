@@ -29,17 +29,4 @@ class TestUserModels(BaseClassTest):
         response = self.client.post('/auth/v1/register',
                                     data=json.dumps(self.user_data),
                                     content_type='application/json')
-        self.assertEqual(response.status_code, 201)
-
-    def test_login(self):
-        """Test if a registered user can login"""
-        self.client.post('/api/v1/auth/register',
-                         data=json.dumps(self.user_data),
-                         content_type='application/json')
-        response = self.client.post('/auth/v1/login',
-                                    data=json.dumps({
-                                        "email": "barclay@koin.com",
-                                        "password": "Hello@254"
-                                    }))
-
         self.assertEqual(response.status_code, 200)

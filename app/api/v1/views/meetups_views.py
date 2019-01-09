@@ -33,8 +33,17 @@ class MeetupResource(Resource):
             "Message": "meetup successfully created"
         }
 
-    def get(self):
-        pass
+    def get(self, meetup_id):
+        meetup = meetup_view.get_a_specific_meetup(id=meetup_id)
+        if not meetup:
+            return {
+                "status": 404,
+                "error": "Meetup of id {} not found".format(meetup_id)
+            }
+        return {
+            "status": 200,
+            "data": meetup
+        }
 
     def delete(self):
         pass

@@ -4,7 +4,7 @@ import jwt
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
-class MockDb():
+class MockDb:
     """Data structure database"""
 
     def __init__(self):
@@ -23,7 +23,7 @@ class MockDb():
 database = MockDb()
 
 
-class User():
+class User:
     """User class model"""
 
     def __init__(self, firstname, lastname, othername, email,

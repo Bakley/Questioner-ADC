@@ -35,26 +35,29 @@ class SignupResource(Resource):
 
         if email_exists:
             return {
+                "error": "A user with that email already exists.",
                 "status": 409,
-                "error": "User already exist with that email"
             }
 
-        user_data = User(firstname=args.get('firstname'),
-                         lastname=args.get('lastname'),
-                         othername=args.get('othername'),
-                         phoneNumber=args.get('phoneNumber'),
-                         username=args.get('username'),
-                         email=args.get('email'),
-                         password=password)
-        user = user_data.save_user()
+        user = User(firstname=args.get('firstname'),
+                    lastname=args.get('lastname'),
+                    othername=args.get('othername'),
+                    phoneNumber=args.get('phoneNumber'),
+                    username=args.get('username'),
+                    email=args.get('email'),
+                    password=password)
+        user = user.save_user()
+        print(user.__dict__)
 
         return {
             "status": 201,
-            "message": "Successfully registered",
-            # "data": user
+            "data": {
+                "message": "Successfully registered",
+                # "user": user
+            }
         }
 
-    def get(self):
+    def get(self, id):
         pass
 
     def delete(self):

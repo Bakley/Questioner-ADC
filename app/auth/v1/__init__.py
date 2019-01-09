@@ -6,4 +6,5 @@ version_1auth = Blueprint('authV1', __name__, url_prefix='/auth/v1')
 
 api = Api(version_1auth)
 
-api.add_resource(SignupResource, '/register')
+
+api.add_resource(SignupResource, '/register', '/register/<int:id>')

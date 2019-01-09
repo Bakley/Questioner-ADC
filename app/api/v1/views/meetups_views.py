@@ -2,7 +2,9 @@
 
 from flask import Flask
 from flask_restful import Resource, reqparse
-from app.api.vi.models import meetups
+from app.api.v1.models import meetups
+
+meetup_view = meetups.MeetupsModel()
 
 
 class MeetupResource(Resource):
@@ -12,8 +14,8 @@ class MeetupResource(Resource):
                         help='Location cannot be blank', type=str)
     parser.add_argument('topic', required=True,
                         help='topic cannot be blank', type=str)
-    parser.add_argument('tags', required=True,
-                        help='Tags cannot be blank', type=int, action='append')
+    parser.add_argument('tags',
+                        help='Tags cannot be blank', action='append')
 
     def post(self):
         args = MeetupResource.parser.parse_args()
@@ -21,16 +23,14 @@ class MeetupResource(Resource):
         topic = args.get('topic')
         tags = args.get('tags')
 
-        meetup = meetups.MeetupModels(location=args.get('firstname'),
-                                      topic=args.get('topic'), tags=args.get('tags'))
-        meetup = meetups.create_meetup()
+        meetup = meetup_view.create_meetup(location=args.get('location'),
+                                           topic=args.get('topic'),
+                                           tags=args.get('tags'))
 
         return {
             "status": 201,
-            "data": {
-                "message": "meetup successfully created",
-                "meetup": meetup
-            }
+            "data": meetup,
+            "Message": "meetup successfully created"
         }
 
     def get(self):

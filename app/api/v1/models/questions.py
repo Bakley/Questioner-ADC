@@ -48,14 +48,31 @@ class QuestionsModel:
         """Increment vote by 1"""
 
         payload = [payload for payload in self.db if payload['id'] == id]
-        print(payload)
 
         if not payload:
             return False
 
         upvote_votes = self.db[0]["votes"] + 1
         self.db[0]["votes"] = upvote_votes
-        print("self===", self.db)
+
+        if self.db:
+            return [{
+                "meetup": self.db[0]["meetup"],
+                "title": self.db[0]["title"],
+                "body": self.db[0]["body"],
+                "votes": self.db[0]["votes"]
+            }]
+
+    def downvote_question(self, id):
+        """Decrement vote by 1"""
+
+        payload = [payload for payload in self.db if payload['id'] == id]
+
+        if not payload:
+            return False
+
+        downvote_votes = self.db[0]["votes"] - 1
+        self.db[0]["votes"] = downvote_votes
 
         if self.db:
             return [{

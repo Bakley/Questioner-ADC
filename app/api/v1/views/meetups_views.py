@@ -1,6 +1,5 @@
 """Meetup views file"""
 
-from flask import Flask
 from flask_restful import Resource, reqparse
 from app.api.v1.models import meetups
 
@@ -40,11 +39,11 @@ class MeetupResource(Resource):
             return {
                 "status": 404,
                 "error": "No upcoming meetup yet"
-            }
+            }, 404
         return {
             "status": 200,
             "data": meetup
-        }
+        }, 200
 
     def delete(self):
         pass

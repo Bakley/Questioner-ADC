@@ -77,7 +77,7 @@ class User:
         """Method for getting user by id"""
         user = database.users.get(id)
         if not user:
-            return {'message': 'User does not exist.'}
+            return False
         return user
 
     @classmethod

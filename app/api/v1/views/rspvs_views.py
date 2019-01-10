@@ -19,10 +19,10 @@ class RspvsResource(Resource):
     def post(self, meetup_id):
         args = RspvsResource.parser.parse_args()
 
-        rspv = rspv_view.create_question(status=args.get('status'),
-                                         topic=args.get('topic'),
-                                         meetup=args.get('meetup'),
-                                         createdBy=args.get(
+        rspv = rspv_view.create_rspv(status=args.get('status'),
+                                     topic=args.get('topic'),
+                                     meetup=args.get('meetup'),
+                                     createdBy=args.get(
             'createdBy')
         )
 
@@ -30,4 +30,4 @@ class RspvsResource(Resource):
             "status": 201,
             "data": rspv,
             "Message": "rspv successfully created"
-        }
+        }, 201

@@ -12,6 +12,6 @@ script:
 
 after_success:
   - coveralls
-  - codecov --
+  - codecov --00baa9e9-fb00-42fa-af16-57ffbf9d776a
 
 cache: pip

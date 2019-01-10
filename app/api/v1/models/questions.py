@@ -24,7 +24,15 @@ class QuestionsModel:
             "createdOn": datetime.utcnow().isoformat()
         }
         self.db.append(payload)
-        return payload
+
+        return [
+            {
+                "user": payload["id"],
+                "meetup": payload["meetup"],
+                "title": payload["title"],
+                "body": payload["body"]
+            }
+        ]
 
     def get_all_questions(self):
         """Retrieves all upcoming meetups"""
@@ -35,3 +43,24 @@ class QuestionsModel:
         question = [new_question for new_question in self.db
                     if new_question["id"] == id]
         return question
+
+    def upvote_question(self, id):
+        """Increment vote by 1"""
+
+        payload = [payload for payload in self.db if payload['id'] == id]
+        print(payload)
+
+        if not payload:
+            return False
+
+        upvote_votes = self.db[0]["votes"] + 1
+        self.db[0]["votes"] = upvote_votes
+        print("self===", self.db)
+
+        if self.db:
+            return [{
+                "meetup": self.db[0]["meetup"],
+                "title": self.db[0]["title"],
+                "body": self.db[0]["body"],
+                "votes": self.db[0]["votes"]
+            }]

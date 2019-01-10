@@ -36,3 +36,41 @@ class QuestionResource(Resource):
             "data": question,
             "Message": "question successfully created"
         }, 201
+
+
+class UpvoteResource(Resource):
+    """Upvote view"""
+
+    def patch(self, questions_id):
+        """Upvote method"""
+
+        upvote = question_view.upvote_question(id=questions_id)
+
+        if not upvote:
+            return {
+                "status": 404,
+                "error": "No question found"
+            }, 404
+        return {
+            "status": 200,
+            "data": upvote
+        }, 200
+
+
+class DownvoteResource(Resource):
+    """Downvote view"""
+
+    def patch(self, questions_id):
+        """Downvote method"""
+
+        downvote = question_view.downvote_question(id=questions_id)
+
+        if not downvote:
+            return {
+                "status": 404,
+                "error": "No question found"
+            }, 404
+        return {
+            "status": 200,
+            "data": downvote
+        }, 200

@@ -1,7 +1,9 @@
 from flask import Blueprint
 from flask_restful import Api
 from app.api.v1.views.meetups_views import AllMeetupResource, MeetupResource
-from app.api.v1.views.questions_views import QuestionResource, UpvoteResource
+from app.api.v1.views.questions_views import (QuestionResource,
+                                              UpvoteResource,
+                                              DownvoteResource)
 from app.api.v1.views.rspvs_views import RspvsResource
 
 
@@ -16,3 +18,4 @@ api.add_resource(AllMeetupResource, '/meetups/<int:meetup_id>',
 api.add_resource(QuestionResource, '/questions')
 api.add_resource(RspvsResource, '/meetups/<int:meetup_id>/rspvs')
 api.add_resource(UpvoteResource, '/questions/<int:questions_id>/upvote')
+api.add_resource(DownvoteResource, '/questions/<int:questions_id>/downvote')

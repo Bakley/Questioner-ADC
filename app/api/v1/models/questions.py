@@ -1,5 +1,4 @@
 """Meetup models"""
-from app.api.v1.models.meetups import meetup_models
 from datetime import datetime
 
 questions = []

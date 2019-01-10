@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-meetups = []
+meetup_models = []
 
 
 class MeetupsModel:
@@ -10,7 +10,7 @@ class MeetupsModel:
 
     def __init__(self):
         """Initializes the model"""
-        self.db = meetups
+        self.db = meetup_models
 
     def create_meetup(self, location, topic, tags):
         """Method to save meetup records"""

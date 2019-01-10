@@ -60,8 +60,8 @@ class AllMeetupResource(Resource):
             return {
                 "status": 404,
                 "error": "Meetup of id {} not found".format(meetup_id)
-            }
+            }, 404
         return {
             "status": 200,
             "data": meetup
-        }
+        }, 200

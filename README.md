@@ -6,6 +6,7 @@ Crowd-source questions for a meetup. Set of API endpoints
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0c82cd66a38040928a1cdcf0e8044a75)](https://www.codacy.com/app/Bakley/Questioner-ADC?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Bakley/Questioner-ADC&amp;utm_campaign=Badge_Grade)
 [![Coverage Status](https://coveralls.io/repos/github/Bakley/Questioner-ADC/badge.svg?branch=develop)](https://coveralls.io/github/Bakley/Questioner-ADC?branch=develop)
 [![Build Status](https://travis-ci.org/Bakley/Questioner-ADC.svg?branch=develop)](https://travis-ci.org/Bakley/Questioner-ADC)
+[![codecov](https://codecov.io/gh/Bakley/Questioner-ADC/branch/develop/graph/badge.svg)](https://codecov.io/gh/Bakley/Questioner-ADC)
 
 ## API Endpoints covered included in this branch
 

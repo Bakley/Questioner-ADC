@@ -8,13 +8,14 @@ class RspvsModel:
         """Initializes the model"""
         self.db = rspv_models
 
-    def create_rspv(self, meetup, topic, status):
+    def create_rspv(self, meetup, topic, status, createdBy):
         """Method to save rspv records"""
         payload = {
             "id": len(self.db) + 1,
             "meetup": meetup,
             "topic": topic,
             "status": status,
+            "createdBy": createdBy
         }
         self.db.append(payload)
         return payload

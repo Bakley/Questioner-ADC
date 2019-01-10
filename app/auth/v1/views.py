@@ -37,7 +37,7 @@ class SignupResource(Resource):
             return {
                 "error": "A user with that email already exists.",
                 "status": 409,
-            }
+            }, 409
 
         user = User(firstname=args.get('firstname'),
                     lastname=args.get('lastname'),
@@ -53,9 +53,9 @@ class SignupResource(Resource):
             "status": 201,
             "data": {
                 "message": "Successfully registered",
-                # "user": user
+                "user": user.__dict__
             }
-        }
+        }, 201
 
     def get(self, id):
         pass

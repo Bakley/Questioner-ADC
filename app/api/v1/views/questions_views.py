@@ -35,4 +35,4 @@ class QuestionResource(Resource):
             "status": 201,
             "data": question,
             "Message": "question successfully created"
-        }
+        }, 201

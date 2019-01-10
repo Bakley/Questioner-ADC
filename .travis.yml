@@ -5,11 +5,13 @@ python:
 
 install:
   - pip install -r requirements.txt
+  - pip install coveralls codecov
 
 script:
   - nosetests --with-coverage --cover-package=app  && coverage report
 
 after_success:
   - coveralls
+  - codecov --00baa9e9-fb00-42fa-af16-57ffbf9d776a
 
 cache: pip

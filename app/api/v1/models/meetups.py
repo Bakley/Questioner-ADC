@@ -23,7 +23,12 @@ class MeetupsModel:
             "happeningOn": datetime.utcnow().isoformat()
         }
         self.db.append(payload)
-        return payload
+        return [{
+            "topic": payload["topic"],
+            "location": payload["location"],
+            "happeningOn": payload["happeningOn"],
+            "tags": payload["tags"]
+        }]
 
     def get_all_meetups(self):
         """Retrieves all upcoming meetups"""
@@ -33,4 +38,12 @@ class MeetupsModel:
         """Retrieves a specific meetup"""
         meetup = [new_meetup for new_meetup in self.db
                   if new_meetup["id"] == id]
-        return meetup
+        if not meetup:
+            return False
+        return [{
+            "id": meetup[0]["id"],
+            "topic": meetup[0]["topic"],
+            "location": meetup[0]["location"],
+            "happeningOn": meetup[0]["happeningOn"],
+            "tags": meetup[0]["tags"]
+        }]

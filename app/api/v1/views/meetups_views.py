@@ -2,6 +2,13 @@
 
 from flask_restful import Resource, reqparse
 from app.api.v1.models import meetups
+from app.utilities.validator_functions import (check_number_format,
+                                               check_name_format,
+                                               check_username_format,
+                                               check_password_strength,
+                                               check_email_format,
+                                               check_for_empty_string)
+
 
 meetup_view = meetups.MeetupsModel()
 
@@ -17,10 +24,16 @@ class MeetupResource(Resource):
                         help='Tags cannot be blank', action='append')
 
     def post(self):
-        args = MeetupResource.parser.parse_args()
-        location = args.get('location')
-        topic = args.get('topic')
-        tags = args.get('tags')
+        try:
+            args = MeetupResource.parser.parse_args()
+            location = args.get('location')
+            topic = args.get('topic')
+            tags = args.get('tags')
+        except Exception as e:
+            return {
+                "status": 404,
+                "error": "Invalid Key field"
+            }, 404
 
         meetup = meetup_view.create_meetup(location=args.get('location'),
                                            topic=args.get('topic'),

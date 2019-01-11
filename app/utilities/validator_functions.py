@@ -8,7 +8,7 @@ def check_for_empty_string(input_data):
     """
 
     if input_data.strip() == "":
-        return 'All fields are required'
+        return True
     return None
 
 

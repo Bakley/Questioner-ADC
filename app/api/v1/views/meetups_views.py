@@ -31,9 +31,9 @@ class MeetupResource(Resource):
             tags = args.get('tags')
         except Exception as e:
             return {
-                "status": 404,
+                "status": 400,
                 "error": "Invalid Key field"
-            }, 404
+            }, 400
 
         meetup = meetup_view.create_meetup(location=args.get('location'),
                                            topic=args.get('topic'),

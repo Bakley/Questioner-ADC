@@ -1,4 +1,4 @@
-from flask import Flask
+"""User model views"""
 from flask_restful import Resource, reqparse
 from app.auth.v1.models import User
 

@@ -1,6 +1,5 @@
 """Questions views file"""
 
-from flask import Flask
 from flask_restful import Resource, reqparse
 from app.api.v1.models import questions
 

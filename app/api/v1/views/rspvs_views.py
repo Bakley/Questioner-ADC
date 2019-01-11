@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 from app.api.v1.models import rspvs
+from app.utilities.validator_functions import (check_for_empty_string)
 
 rspv_view = rspvs.RspvsModel()
 
@@ -17,7 +18,24 @@ class RspvsResource(Resource):
                         help='meetup cannot be blank', type=int)
 
     def post(self, meetup_id):
-        args = RspvsResource.parser.parse_args()
+        try:
+            args = RspvsResource.parser.parse_args()
+            status = args.get('status')
+            topic = args.get('topic')
+        except Exception as e:
+            return {
+                "status": 400,
+                "Message": "{}".format(e),
+                "error": "Invalid key error"
+            }, 400
+
+        for item in (status, topic):
+            if check_for_empty_string(item):
+                return {
+                    "status": 400,
+                    "error":
+                    "Value cannot be empty, please provide a {}".format(item)
+                }, 400
 
         rspv = rspv_view.create_rspv(status=args.get('status'),
                                      topic=args.get('topic'),

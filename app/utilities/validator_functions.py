@@ -8,7 +8,7 @@ def check_for_empty_string(input_data):
     """
 
     if input_data.strip() == "":
-        return 'All fields are required'
+        return True
     return None
 
 
@@ -88,8 +88,9 @@ def check_email_format(input_email):
     """
     Should be email worthy.
     """
-    if re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]*\.*[com|org|edu]{3}$)",
-                input_email):
+    if re.match(
+        r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]*\.*[com|org|edu]{3}$)",
+            input_email):
         res = True
     else:
         res = False

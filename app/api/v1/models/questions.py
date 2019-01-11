@@ -72,6 +72,7 @@ class QuestionsModel:
             return False
 
         downvote_votes = self.db[0]["votes"] - 1
+
         self.db[0]["votes"] = downvote_votes
 
         if self.db:

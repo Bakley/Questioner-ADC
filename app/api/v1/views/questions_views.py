@@ -2,6 +2,7 @@
 
 from flask_restful import Resource, reqparse
 from app.api.v1.models import questions
+from app.utilities.validator_functions import (check_for_empty_string)
 
 question_view = questions.QuestionsModel()
 
@@ -30,6 +31,13 @@ class QuestionResource(Resource):
                 "error": "Invalid key error"
             }, 400
 
+        for item in (location, topic):
+            if check_for_empty_string(item):
+                return {
+                    "status": 400,
+                    "error":
+                    "Value cannot be empty, please provide a {}".format(item)
+                }, 400
         question = question_view.create_question(body=args.get('body'),
                                                  title=args.get('title'),
                                                  meetup=args.get('meetup'),

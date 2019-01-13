@@ -29,4 +29,4 @@ class TestUserModels(BaseClassTest):
         response = self.client.post('/auth/v1/register',
                                     data=json.dumps(self.user_data),
                                     content_type='application/json')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 201)

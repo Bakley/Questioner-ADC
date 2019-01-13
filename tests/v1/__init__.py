@@ -4,6 +4,8 @@ import json
 
 from app import create_app
 from app.auth.v1.models import database, User
+from app.api.v1.models.meetups import MeetupsModel
+
 
 # from app.api.v1.models.question_models import QuestionModels
 # from app.api.v1.models.comments_models import CommentsModels
@@ -56,6 +58,12 @@ class BaseClassTest(unittest.TestCase):
             password="Hello@254"
         )
 
+        self.meetup1 = MeetupsModel().create_meetup(
+            location="Ihub",
+            topic="Google I/O",
+            tags=["Ihub", "Google"]
+        )
+
         self.meetup = {
             "id": 1,
             "createdOn": "Date",
@@ -64,16 +72,6 @@ class BaseClassTest(unittest.TestCase):
             "happeningOn": "Date",
             "Tags": ["python", "Ihub"],
 
-        }
-
-        self.question = {
-            "id": 1,
-            "createdOn": "Date",
-            "createdBy": 1,
-            "meetup": 1,
-            "title": "Food",
-            "body": "Will there be food?",
-            "votes": 0
         }
 
         self.rsvp = {

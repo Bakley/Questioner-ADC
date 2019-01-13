@@ -61,12 +61,9 @@ class MeetupResource(Resource):
             "data": meetup
         }, 200
 
-    def delete(self):
-        pass
-
 
 class AllMeetupResource(Resource):
-    """Class to get all meetups created"""
+    """Class to get a meetups created"""
 
     def get(self, meetup_id):
         """Method to get a specific meetup"""
@@ -80,3 +77,19 @@ class AllMeetupResource(Resource):
             "status": 200,
             "data": meetup
         }, 200
+
+    def delete(self, meetup_id):
+        """Method to delete a meetup"""
+        meetup = meetup_view.get_a_specific_meetup(id=meetup_id)
+        if not meetup:
+            return {
+                "status": 404,
+                "error": "Meetup of id {} not found".format(meetup_id)
+            }, 404
+
+        meetups.meetup_models.remove(meetup)
+        return {
+            "status": 404,
+            "Message":
+            "Successfully delete user with user_id of {}".format(meetup_id)
+        }, 204

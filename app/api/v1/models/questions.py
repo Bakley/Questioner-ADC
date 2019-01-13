@@ -1,11 +1,11 @@
-"""Meetup models"""
+"""Question models"""
 from datetime import datetime
 
 questions = []
 
 
 class QuestionsModel:
-    """Meetup class models"""
+    """Question class models"""
 
     def __init__(self):
         """Initializes the model"""

@@ -99,3 +99,9 @@ To test the endpoints ensure that the following tools are available the follow s
 
 ## Heroku Hosting
 
+https://questioner-v.herokuapp.com/api/v1/meetups/upcoming
+
+## GH-Pages
+
+https://bakley.github.io/Questioner/UI/landing.html
+

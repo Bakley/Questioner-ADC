@@ -47,6 +47,8 @@ class MeetupResource(Resource):
                 "Please provide a topic for the Meetup"
             }, 400
 
+        # check if a location already exist
+
         location_exists = meetup_view.get_a_meetup_by_loaction(
             location=args['location'])
 

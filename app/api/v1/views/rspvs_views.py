@@ -29,13 +29,10 @@ class RspvsResource(Resource):
                 "error": "Invalid key error"
             }, 400
 
-        print(status)
-
         matchers = ["Yes", "No", "Maybe"]
 
         matching = [
             value for value in status if any(xs in status for xs in matchers)]
-        print(matching)
 
         if not matching:
             return {

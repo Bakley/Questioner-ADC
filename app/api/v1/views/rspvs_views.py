@@ -6,7 +6,7 @@ rspv_view = rspvs.RspvsModel()
 
 
 class RspvsResource(Resource):
-    """Rspvs class"""
+    """Rspvs class view"""
     parser = reqparse.RequestParser()
     parser.add_argument('status', required=True,
                         help='status cannot be blank', type=str)
@@ -18,6 +18,7 @@ class RspvsResource(Resource):
                         help='meetup cannot be blank', type=int)
 
     def post(self, meetup_id):
+        """Method to create an RSPV"""
         try:
             args = RspvsResource.parser.parse_args()
             status = args.get('status')

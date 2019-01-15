@@ -14,7 +14,6 @@ class TestRspvRecord(unittest.TestCase):
         self.client = self.app.test_client()
         self.rspv1 = RspvsModel().create_rspv(
             createdBy="1",
-            meetup=1,
             topic="food",
             status="Yes"
         )
@@ -22,7 +21,6 @@ class TestRspvRecord(unittest.TestCase):
         self.rspv = {
             "id": 1,
             "createdBy": 1,
-            "meetup": 1,
             "topic": "Food",
             "status": "Yes"
         }
@@ -30,7 +28,6 @@ class TestRspvRecord(unittest.TestCase):
         self.rspv_missing_value = {
             "id": 1,
             "createdBy": 1,
-            "meetup": 1,
             "topic": "Food",
             "status": ""
         }
@@ -38,7 +35,6 @@ class TestRspvRecord(unittest.TestCase):
         self.rspv_wrong_key = {
             "id": 1,
             "createdBy": 1,
-            "meetup": 1,
             "topic": "Food",
             "stat": "Yes"  # status
         }
@@ -46,7 +42,7 @@ class TestRspvRecord(unittest.TestCase):
     def test_if_can_save_rspv_record(self):
         """Test if rspv record is being saved"""
         self.rspv1
-        self.assertEqual(5, len(self.rspv))
+        self.assertEqual(4, len(self.rspv))
 
     def test_post_a_rspv(self):
         """Test if the post view works"""

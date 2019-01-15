@@ -58,7 +58,7 @@ class SignupResource(Resource):
             }
         }, 201
 
-    def get(self, id): s
+    def get(self, id):
         pass
 
     def delete(self):

@@ -23,20 +23,25 @@ class RspvsResource(Resource):
             args = RspvsResource.parser.parse_args()
             status = args.get('status')
             topic = args.get('topic')
-        except Exception as e:
+        except Exception:
             return {
                 "status": 400,
-                "Message": "{}".format(e),
                 "error": "Invalid key error"
             }, 400
 
-        for item in (status, topic):
-            if check_for_empty_string(item):
-                return {
-                    "status": 400,
-                    "error":
-                    "Value cannot be empty, please provide a {}".format(item)
-                }, 400
+        print(status)
+
+        matchers = ["Yes", "No", "Maybe"]
+
+        matching = [
+            value for value in status if any(xs in status for xs in matchers)]
+        print(matching)
+
+        if not matching:
+            return {
+                "status": 400,
+                "error": "Status, can only take Yes, No or Maybe"
+            }, 400
 
         rspv = rspv_view.create_rspv(status=args.get('status'),
                                      topic=args.get('topic'),

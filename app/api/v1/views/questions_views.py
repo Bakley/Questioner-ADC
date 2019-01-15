@@ -8,7 +8,7 @@ question_view = questions.QuestionsModel()
 
 
 class QuestionResource(Resource):
-    """Question class"""
+    """Question views class"""
     parser = reqparse.RequestParser()
     parser.add_argument('body', required=True,
                         help='Location cannot be blank', type=str)
@@ -20,6 +20,7 @@ class QuestionResource(Resource):
                         help='meetup cannot be blank', type=int)
 
     def post(self):
+        """Creation of the question, and validating user inputs"""
         try:
             args = QuestionResource.parser.parse_args()
             location = args.get('body')
@@ -30,6 +31,8 @@ class QuestionResource(Resource):
                 "Message": "{}".format(e),
                 "error": "Invalid key error"
             }, 400
+
+        # Check if user values inputted are empty
 
         for item in (location, topic):
             if check_for_empty_string(item):
@@ -53,10 +56,10 @@ class QuestionResource(Resource):
 
 
 class UpvoteResource(Resource):
-    """Upvote view"""
+    """Upvote view class"""
 
     def patch(self, questions_id):
-        """Upvote method"""
+        """Upvote method, increments a vote by 1"""
 
         upvote = question_view.upvote_question(id=questions_id)
 
@@ -72,10 +75,10 @@ class UpvoteResource(Resource):
 
 
 class DownvoteResource(Resource):
-    """Downvote view"""
+    """Downvote view class"""
 
     def patch(self, questions_id):
-        """Downvote method"""
+        """Downvote method, decrements a vote by 1"""
 
         downvote = question_view.downvote_question(id=questions_id)
 

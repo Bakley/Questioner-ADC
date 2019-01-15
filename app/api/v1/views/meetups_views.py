@@ -9,7 +9,7 @@ meetup_view = meetups.MeetupsModel()
 
 
 class MeetupResource(Resource):
-    """Meetup class"""
+    """Meetup class view"""
     parser = reqparse.RequestParser()
     parser.add_argument('location', required=True,
                         help='Location cannot be blank', type=str)
@@ -19,6 +19,7 @@ class MeetupResource(Resource):
                         help='Tags cannot be blank', action='append')
 
     def post(self):
+        """Creation of a meetup POST"""
         try:
             args = MeetupResource.parser.parse_args()
             location = args.get('location')

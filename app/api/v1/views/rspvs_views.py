@@ -52,3 +52,20 @@ class RspvsResource(Resource):
             "data": rspv,
             "Message": "rspv successfully created"
         }, 201
+
+
+class GetRspvs(Resource):
+    """Class to get all RSPVS"""
+
+    def get(self):
+        """Method to get all the RSPVS created"""
+        rspv = rspv_view.get_all_rspvs()
+        if not rspv:
+            return {
+                "status": 404,
+                "error": "No upcoming rspv yet"
+            }, 404
+        return {
+            "status": 200,
+            "data": rspv
+        }, 200

@@ -14,8 +14,6 @@ class RspvsResource(Resource):
                         help='topic cannot be blank', type=str)
     parser.add_argument('createdBy', required=True,
                         help='created by cannot be blank', type=int)
-    parser.add_argument('meetup', required=True,
-                        help='meetup cannot be blank', type=int)
 
     def post(self, meetup_id):
         """Method to create an RSPV"""
@@ -42,10 +40,15 @@ class RspvsResource(Resource):
 
         rspv = rspv_view.create_rspv(status=args.get('status'),
                                      topic=args.get('topic'),
-                                     meetup=args.get('meetup'),
                                      createdBy=args.get(
             'createdBy')
         )
+        print(rspv)
+        if not rspv:
+            return {
+                "status": 404,
+                "error": "No meetup found to RSPV for"
+            }, 404
 
         return {
             "status": 201,

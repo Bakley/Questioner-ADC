@@ -23,29 +23,35 @@ class QuestionResource(Resource):
         """Creation of the question, and validating user inputs"""
         try:
             args = QuestionResource.parser.parse_args()
-            location = args.get('body')
-            topic = args.get('title')
-        except Exception as e:
+            body = args.get('body')
+            title = args.get('title')
+        except Exception:
             return {
                 "status": 400,
-                "Message": "{}".format(e),
-                "error": "Invalid key error"
+                "error": "Invalid key error, please check on your spelling"
             }, 400
 
         # Check if user values inputted are empty
 
-        for item in (location, topic):
-            if check_for_empty_string(item):
-                return {
-                    "status": 400,
-                    "error":
-                    "Value cannot be empty, please provide a {}".format(item)
-                }, 400
+        if check_for_empty_string(body):
+            return {
+                "status": 400,
+                "error":
+                "Value cannot be empty, please provide a body for the question"
+            }, 400
+
+        if check_for_empty_string(title):
+            return {
+                "status": 400,
+                "error":
+                "Please provide a title for the question"
+            }, 400
+
         question = question_view.create_question(body=args.get('body'),
                                                  title=args.get('title'),
                                                  meetup=args.get('meetup'),
                                                  createdBy=args.get(
-                                                     'createdBy')
+                                                 'createdBy')
                                                  )
 
         return {
@@ -53,6 +59,19 @@ class QuestionResource(Resource):
             "data": question,
             "Message": "question successfully created"
         }, 201
+
+    def get(self):
+        """Method to get all the available question"""
+        question = question_view.get_all_questions()
+        if not question:
+            return {
+                "status": 404,
+                "error": "No upcoming question yet"
+            }, 404
+        return {
+            "status": 200,
+            "data": question
+        }, 200
 
 
 class UpvoteResource(Resource):

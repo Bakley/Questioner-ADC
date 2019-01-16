@@ -1,3 +1,4 @@
+from app.api.v1.models.meetups import meetup_models
 rspv_models = []
 
 
@@ -8,12 +9,10 @@ class RspvsModel:
         """Initializes the model"""
         self.db = rspv_models
 
-    def create_rspv(self, meetup, topic, status, createdBy):
+    def create_rspv(self, status, createdBy):
         """Method to save rspv records"""
         payload = {
             "id": len(self.db) + 1,
-            "meetup": meetup,
-            "topic": topic,
             "status": status,
             "createdBy": createdBy
         }

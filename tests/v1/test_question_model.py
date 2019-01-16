@@ -14,7 +14,7 @@ class TestQuestionRecord(unittest.TestCase):
         self.client = self.app.test_client()
         self.question1 = QuestionsModel().create_question(
             createdBy="1",
-            meetup=1,
+            meetup="1",
             title="food",
             body="will there be food"
         )

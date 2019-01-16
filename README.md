@@ -1,12 +1,19 @@
 # Questioner-ADC
-Crowd-source questions for a meetup. Set of API endpoints
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/327b489ebb4d383d38c6/maintainability)](https://codeclimate.com/github/Bakley/Questioner-ADC/maintainability)
-[![BCH compliance](https://bettercodehub.com/edge/badge/Bakley/Questioner-ADC?branch=develop)](https://bettercodehub.com/)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0c82cd66a38040928a1cdcf0e8044a75)](https://www.codacy.com/app/Bakley/Questioner-ADC?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Bakley/Questioner-ADC&amp;utm_campaign=Badge_Grade)
 [![Coverage Status](https://coveralls.io/repos/github/Bakley/Questioner-ADC/badge.svg?branch=develop)](https://coveralls.io/github/Bakley/Questioner-ADC?branch=develop)
 [![Build Status](https://travis-ci.org/Bakley/Questioner-ADC.svg?branch=develop)](https://travis-ci.org/Bakley/Questioner-ADC)
-[![codecov](https://codecov.io/gh/Bakley/Questioner-ADC/branch/develop/graph/badge.svg)](https://codecov.io/gh/Bakley/Questioner-ADC)
+
+Crowd-source questions for a meetup. Building a set of API endpoints where the users can vote on asked questions and they bubble to the top or bottom of the log.
+
+# Required Features
+1. Admin can create meet ups.
+2. Users can create an account and log in.
+3. Users can post questions to a specific meet up.
+4. Users can up vote or down vote a question.
+5. Questions are sorted based on the number of up votes a question has, which helps the meet up organizer(s) to prioritize questions most users are interested in.
+6. Users can post comments to a specific question.
 
 ## API Endpoints covered included in this branch
 

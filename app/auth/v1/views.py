@@ -22,6 +22,7 @@ class SignupResource(Resource):
                         help='Password cannot be blank', type=str)
 
     def post(self):
+        """Implementation of the POST, where we create a user"""
         args = SignupResource.parser.parse_args()
         firstname = args.get('firstname')
         lastname = args.get('lastname')

@@ -30,7 +30,8 @@ class QuestionsModel:
                 "user": payload["id"],
                 "meetup": payload["meetup"],
                 "title": payload["title"],
-                "body": payload["body"]
+                "body": payload["body"],
+                "votes": payload["votes"]
             }
         ]
 

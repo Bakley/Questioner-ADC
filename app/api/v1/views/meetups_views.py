@@ -9,7 +9,7 @@ meetup_view = meetups.MeetupsModel()
 
 
 class MeetupResource(Resource):
-    """Meetup class"""
+    """Meetup class view"""
     parser = reqparse.RequestParser()
     parser.add_argument('location', required=True,
                         help='Location cannot be blank', type=str)
@@ -19,6 +19,7 @@ class MeetupResource(Resource):
                         help='Tags cannot be blank', action='append')
 
     def post(self):
+        """Creation of a meetup POST"""
         try:
             args = MeetupResource.parser.parse_args()
             location = args.get('location')
@@ -30,14 +31,32 @@ class MeetupResource(Resource):
                 "error": "Invalid Key field"
             }, 400
 
-        for item in (location, topic):
-            if check_for_empty_string(item):
-                return {
-                    "status": 400,
-                    "error":
-                    "Value cannot be empty, please provide a {}".format(item)
-                }, 400
+        # Check if user values inputted are empty
 
+        if check_for_empty_string(location):
+            return {
+                "status": 400,
+                "error":
+                "Please provide a location for the meetup"
+            }, 400
+
+        if check_for_empty_string(topic):
+            return {
+                "status": 400,
+                "error":
+                "Please provide a topic for the Meetup"
+            }, 400
+
+        # check if a location already exist
+
+        location_exists = meetup_view.get_a_meetup_by_loaction(
+            location=args['location'])
+
+        if location_exists:
+            return {
+                "error": "A meetup with that location already exists.",
+                "status": 409,
+            }, 409
         meetup = meetup_view.create_meetup(location=args.get('location'),
                                            topic=args.get('topic'),
                                            tags=args.get('tags'))

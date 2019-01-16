@@ -67,18 +67,42 @@ class BaseClassTest(unittest.TestCase):
         self.meetup = {
             "id": 1,
             "createdOn": "Date",
-            "location": "Ihub",
+            "location": "Dedan",
             "topic": "Google I/O",
             "happeningOn": "Date",
             "Tags": ["python", "Ihub"],
 
         }
 
-        self.rsvp = {
+
+        self.meetup_1 = {
+            "id": 2,
+            "createdOn": "Date",
+            "location": "Nyeri",
+            "topic": "Google I/O",
+            "happeningOn": "Date",
+            "Tags": ["python", "Ihub"],
+
+        }
+
+        self.meetup_2 = {
+            "id": 3,
+            "createdOn": "Date",
+            "location": "Nakuru",
+            "topic": "Google I/O",
+            "happeningOn": "Date",
+            "Tags": ["python", "Ihub"],
+
+        }
+
+        self.key_error_meetup = {
             "id": 1,
-            "meetup": 1,
-            "user": 1,
-            "response": "Yes",
+            "createdOn": "Date",
+            "location": "Ihub",
+            "to": "Google I/O",  # topic
+            "happeningOn": "Date",
+            "Tags": ["python", "Ihub"],
+
         }
 
     def log_in_user(self):

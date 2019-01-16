@@ -32,7 +32,12 @@ class MeetupsModel:
 
     def get_all_meetups(self):
         """Retrieves all upcoming meetups"""
-        return self.db
+        upcoming_meetups = []
+        for meetup in self.db:
+            if meetup["happeningOn"] < meetup["createdOn"]:
+                upcoming_meetups.append(meetup)
+
+        return upcoming_meetups
 
     def get_a_specific_meetup(self, id):
         """Retrieves a specific meetup"""

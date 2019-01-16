@@ -15,7 +15,8 @@ api = Api(version_1, catch_all_404s=True)
 api.add_resource(MeetupResource, '/meetups', '/meetups/upcoming')
 api.add_resource(AllMeetupResource, '/meetups/<int:meetup_id>',
                  '/meetups/<int:meetup_id>/rspv')
-api.add_resource(QuestionResource, '/questions')
+api.add_resource(QuestionResource, '/questions',
+                 '/meetups/<int:meetup_id>/questions')
 api.add_resource(UpvoteResource, '/questions/<int:questions_id>/upvote')
 api.add_resource(DownvoteResource, '/questions/<int:questions_id>/downvote')
 api.add_resource(RspvsResource, '/meetups/<int:meetup_id>/rspvs', '/rspvs')

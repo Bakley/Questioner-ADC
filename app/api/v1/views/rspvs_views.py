@@ -48,15 +48,15 @@ class RspvsResource(Resource):
         )
         # Get the required output
         for values in rspv and meetup:
-            r = [{
-                 "meetup": meetup[0]["id"],
-                 "status": rspv["status"],
-                 "topic": meetup[0]["topic"]
-                 }]
+            returned_outputs = [{
+                "meetup": meetup[0]["id"],
+                "status": rspv["status"],
+                "topic": meetup[0]["topic"]
+            }]
 
         return {
             "status": 201,
-            "data": r,
+            "data": returned_outputs,
             "Message": "rspv successfully created"
         }, 201
 

@@ -3,8 +3,11 @@
 from flask_restful import Resource, reqparse
 from app.api.v1.models import questions
 from app.utilities.validator_functions import (check_for_empty_string)
+from app.api.v1.models import meetups
+
 
 question_view = questions.QuestionsModel()
+meetup_question_view = meetups.MeetupsModel()
 
 
 class QuestionResource(Resource):
@@ -16,11 +19,18 @@ class QuestionResource(Resource):
                         help='title cannot be blank', type=str)
     parser.add_argument('createdBy', required=True,
                         help='created by cannot be blank', type=int)
-    parser.add_argument('meetup', required=True,
-                        help='meetup cannot be blank', type=int)
 
-    def post(self):
+    def post(self, meetup_id):
         """Creation of the question, and validating user inputs"""
+
+        meetup = meetup_question_view.get_a_specific_meetup(id=meetup_id)
+        print(meetup)
+        if not meetup:
+            return {
+                "status": 404,
+                "error":
+                "No meetup of id {} found ".format(meetup_id)
+            }, 404
         try:
             args = QuestionResource.parser.parse_args()
             body = args.get('body')
@@ -54,9 +64,18 @@ class QuestionResource(Resource):
                                                  'createdBy')
                                                  )
 
+        # Get all required outputs
+        for index in question and meetup:
+            values_returned = [{
+                "meetup": meetup[0]['id'],
+                "title": question[0]["title"],
+                "body": question[0]["body"],
+                "votes": question[0]["votes"]
+            }]
+
         return {
             "status": 201,
-            "data": question,
+            "data": values_returned,
             "Message": "question successfully created"
         }, 201
 

@@ -31,8 +31,8 @@ class Production(Config):
     TESTING = False
 
 app_config = {
-    "TestConfig": Testing,
-    "DevConfig" : Development,
-    "ProdConfig" : Production
+    "testing": Testing,
+    "development" : Development,
+    "production" : Production
 }
 

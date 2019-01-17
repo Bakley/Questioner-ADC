@@ -4,7 +4,7 @@ from flask import Flask
 from dotenv import load_dotenv
 from app.auth.v2 import version_2auth
 from app.api.v2 import version_2
-
+from app.api.v2.dbmodel import QuestionerDb
 from config import app_config
 
 
@@ -15,7 +15,7 @@ def create_app(config_name):
     app.config.from_object(app_config[config_name])
     app.config['BUNDLE_ERRORS'] = True
     QuestionerDb.start_db(app.config['DATABASE_URI'])
-    QuestionerDb.build_all()
+    QuestionerDb.create_tables()
 
     app.register_blueprint(version_2auth)
     app.register_blueprint(version_2)

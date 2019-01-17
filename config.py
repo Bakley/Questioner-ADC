@@ -30,9 +30,9 @@ class Production(Config):
     DEBUG = False
     TESTING = False
 
-config = {
-    "TestConfig": Testing,
-    "DevConfig" : Development,
-    "ProdConfig" : Production
+app_config = {
+    "testing": Testing,
+    "development" : Development,
+    "production" : Production
 }
 

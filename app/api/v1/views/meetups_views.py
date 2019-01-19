@@ -28,7 +28,7 @@ class MeetupResource(Resource):
         except Exception:
             return {
                 "status": 400,
-                "error": "Invalid Key field"
+                "error": "Invalid Key field. Missing or wrongly spelled Keys, should be location, topic and tags"
             }, 400
 
         # Check if user values inputted are empty
@@ -55,8 +55,8 @@ class MeetupResource(Resource):
         if location_exists:
             return {
                 "error": "A meetup with that location already exists.",
-                "status": 409,
-            }, 409
+                "status": 400,
+            }, 400
         meetup = meetup_view.create_meetup(location=args.get('location'),
                                            topic=args.get('topic'),
                                            tags=args.get('tags'))
@@ -86,6 +86,14 @@ class AllMeetupResource(Resource):
 
     def get(self, meetup_id):
         """Method to get a specific meetup"""
+        try:
+            meetup_id = int(meetup_id)
+        except Exception:
+            return {
+                "status": 404,
+                "error": "Url need an integer"
+            }, 404
+
         meetup = meetup_view.get_a_specific_meetup(id=meetup_id)
         if not meetup:
             return {
@@ -110,5 +118,5 @@ class AllMeetupResource(Resource):
         return {
             "status": 404,
             "Message":
-            "Successfully delete user with user_id of {}".format(meetup_id)
+            "Successfully delete meetup with meetup_id of {}".format(meetup_id)
         }, 204

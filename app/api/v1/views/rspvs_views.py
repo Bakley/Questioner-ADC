@@ -16,6 +16,13 @@ class RspvsResource(Resource):
 
     def post(self, meetup_id):
         """Method to create an RSPV"""
+        try:
+            meetup_id = int(meetup_id)
+        except Exception:
+            return {
+                "status": 404,
+                "error": "Url need an integer"
+            }, 404
 
         # Get a meetup
 

@@ -49,7 +49,8 @@ class TestMeetupRecord(BaseClassTest):
 
         res_data = json.loads(response_get_all.data.decode())
 
-        print(res_data)
+        import pdb
+        pdb.set_trace()
         self.assertEqual(response_get_all.content_type, 'application/json')
 
     def test_delete_a_meetup(self):

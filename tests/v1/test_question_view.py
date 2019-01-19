@@ -4,6 +4,10 @@ import json
 
 from app import create_app
 from app.api.v1.models.questions import QuestionsModel, questions
+from app.api.v1.models import meetups
+
+meetup_view = meetups.MeetupsModel()
+meetup_database = meetups.meetup_models
 
 
 class TestQuestionRecordViews(unittest.TestCase):
@@ -43,10 +47,10 @@ class TestQuestionRecordViews(unittest.TestCase):
             "votes": 0
         }
 
-        self.meetup_1 = {
+        self.meetup_2 = {
             "id": 2,
             "createdOn": "Date",
-            "location": "Nyeri",
+            "location": "Meru",
             "topic": "Google I/O",
             "happeningOn": "Date",
             "Tags": ["python", "Ihub"],
@@ -56,30 +60,32 @@ class TestQuestionRecordViews(unittest.TestCase):
     def test_post_a_question(self):
         """Test if the post view works"""
 
-        response = self.client.post('/api/v1/meetups',
-                                    data=json.dumps(self.meetup_1),
-                                    content_type='application/json')
-        response = self.client.post('/meetups/1/questions',
+        res = self.client.post('/api/v1/meetups',
+                               data=json.dumps(self.meetup_2),
+                               content_type='application/json')
+
+        response = self.client.post('api/v1/meetups/1/questions',
                                     data=json.dumps(self.question),
                                     content_type='application/json')
-        print(response)
-        self.assertEqual(response.status_code, 404)
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.content_type, 'application/json')
 
     def test_post_a_question_with_wrong_key(self):
         """Test if the post view will return error if a key is misspelled"""
-        response = self.client.post('/meetups/1/questions',
+        response = self.client.post('api/v1/meetups/1/questions',
                                     data=json.dumps(self.question_wrong_key),
                                     content_type='application/json')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 400)
 
     def test_question_post_with_missing_value(self):
         """Test if missing value will output an error"""
-        response = self.client.post('/meetups/1/questions',
+        response = self.client.post('api/v1/meetups/1/questions',
                                     data=json.dumps(
                                         self.question__missing_key),
                                     content_type='application/json')
 
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 400)
 
     def test_get_a_question(self):
         """Test if the we can get a specific meetup"""

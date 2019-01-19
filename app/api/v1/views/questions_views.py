@@ -22,6 +22,13 @@ class QuestionResource(Resource):
 
     def post(self, meetup_id):
         """Creation of the question, and validating user inputs"""
+        try:
+            meetup_id = int(meetup_id)
+        except Exception:
+            return {
+                "status": 404,
+                "error": "Url need an integer"
+            }, 404
 
         meetup = meetup_question_view.get_a_specific_meetup(id=meetup_id)
         print(meetup)
@@ -98,6 +105,13 @@ class UpvoteResource(Resource):
 
     def patch(self, questions_id):
         """Upvote method, increments a vote by 1"""
+        try:
+            questions_id = int(questions_id)
+        except Exception:
+            return {
+                "status": 404,
+                "error": "Url need an integer"
+            }, 404
 
         upvote = question_view.upvote_question(id=questions_id)
 
@@ -117,6 +131,13 @@ class DownvoteResource(Resource):
 
     def patch(self, questions_id):
         """Downvote method, decrements a vote by 1"""
+        try:
+            questions_id = int(questions_id)
+        except Exception:
+            return {
+                "status": 404,
+                "error": "Url need an integer"
+            }, 40
 
         downvote = question_view.downvote_question(id=questions_id)
 

@@ -7,8 +7,7 @@ create_tbl_users = """CREATE TABLE IF NOT EXISTS user(
     userpassword VARCHAR (50) NOT NULL,
     email VARCHAR (355) UNIQUE NOT NULL,
     phonenumber INTEGER NOT NULL,
-    registered TIMESTAMP DEFAULT NOW(),
-    last_login TIMESTAMP,
+    registered timestamp default current_timestamp,
     isAdmin BOOLEAN DEFAULT FALSE
 );"""
 
@@ -20,7 +19,7 @@ create_tbl_meetups = """CREATE TABLE IF NOT EXISTS meetups(
     tags TEXT []NOT NULL,
     images TEXT [],
     createdOn TIMESTAMP NOT NULL,
-    happeningOn TIMESTAMP NOT NULL, 
+    happeningOn TIMESTAMP NOT NULL,
     FOREIGN KEY (user_key_id) REFERENCES users (user_id) ON DELETE CASCADE
 );"""
 
@@ -37,5 +36,5 @@ create_tbl_questions = """CREATE TABLE IF NOT EXISTS questions(
 );
 """
 
-query_insert_admin = """INSERT INTO user (firstname, lastname, username, userpassword, email, phonenumber, isAdmin)
+query_insert_admin = """INSERT INTO users (firstname, lastname, username, userpassword, email, phonenumber, isAdmin)
 VALUES ('superuser', 'superadmin', 'Admin', 'Admin@254', 'super@admin.org', '0703912965', 'TRUE');"""

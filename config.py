@@ -1,12 +1,14 @@
 import os
 
+
 class Config():
     """
     Base configuration class with minimal settings
     """
     DEBUG = False
     TESTING = False
-    JWT_KEY = os.getenv('SECRET_KEY')
+    JWT_KEY = os.environ.get('SECRET_KEY')
+
 
 class Development(Config):
     """
@@ -15,13 +17,15 @@ class Development(Config):
     DEBUG = True
     DATABASE_URI = os.getenv('DEV_DB_URI')
 
+
 class Testing(Config):
     """
     Set ups conditions for testing
     """
     TESTING = True
     DEBUG = True
-    DATABASE_URI = os.getenv('TEST_DB_URI')
+    DATABASE_URI_TEST = os.getenv('TEST_DB_URI')
+
 
 class Production(Config):
     """
@@ -30,9 +34,9 @@ class Production(Config):
     DEBUG = False
     TESTING = False
 
+
 app_config = {
     "testing": Testing,
-    "development" : Development,
-    "production" : Production
+    "development": Development,
+    "production": Production
 }
-

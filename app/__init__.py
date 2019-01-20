@@ -14,8 +14,10 @@ def create_app(config_name):
     app.url_map.strict_slashes = False
     app.config.from_object(app_config[config_name])
     app.config['BUNDLE_ERRORS'] = True
-    QuestionerDb.start_db(app.config['DATABASE_URI'])
-    QuestionerDb.create_tables()
+
+    with app.app_context():
+        QuestionerDb().init_db(app.config['DATABASE_URI'])
+        QuestionerDb().build_all()
 
     app.register_blueprint(version_2auth)
     app.register_blueprint(version_2)

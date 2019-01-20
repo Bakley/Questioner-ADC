@@ -1,6 +1,7 @@
 import os
 import jwt
 from datetime import datetime, timedelta
+from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.api.v2.dbmodel import QuestionerDb
@@ -26,3 +27,52 @@ class UserModel:
                       hashed_password, email, phoneNumber)
         response = QuestionerDb.add_to_db(user_query, user_tuple)
         return response
+
+    def check_for_admin(self, email):
+        """Method to check for an Admin"""
+        admin_query = """SELECT isAdmin FROM  users
+                        WHERE email = '{}'""".format(email)
+        response = QuestionerDb.retrieve_one(admin_query)
+        if response['isAdmin'] is True:
+            return response
+
+    def get_user_by_email(self, email):
+        user_email_query = """SELECT * FROM users WHERE email = '{}'""".format(
+            email)
+        user_response = QuestionerDb.retrieve_one(user_email_query)
+        if not user_response:
+            return False
+        return True
+
+    def validate_password(self, userpassword, user_email):
+        query = """SELECT userpassword FROM users WHERE email='{}'""".format(
+            user_email)
+        result = QuestionerDb.retrieve_one(query)
+
+        if not check_password_hash(result['userpassword'], userpassword):
+            return False
+        return True
+
+    def generate_token(self, email):
+        """Method to generate token"""
+        try:
+            payload = {
+                'exp': datetime.utcnow() + timedelta(minutes=60),
+                'iat': datetime.utcnow(),
+                'email': self.email
+            }
+            token = jwt.encode(
+                payload,
+                str(current_app.config.get('SECRET')),
+                algorithm='HS256'
+            )
+            return token
+        except Exception as error:
+            return str(error)
+
+    @staticmethod
+    def decode_token(token):
+        '''Method for decoding token generated'''
+        token_payload = jwt.decode(token, str(
+            current_app.config.get('SECRET')), algorithms=['HS256'])
+        return token_payload

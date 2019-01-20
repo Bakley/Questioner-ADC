@@ -60,3 +60,8 @@ class UserRegister(Resource):
             "status": 201,
             "data": new_user
         }, 201
+
+
+class UserLogin(Resource):
+    """User should be able to login"""
+    pass

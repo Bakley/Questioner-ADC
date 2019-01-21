@@ -8,6 +8,9 @@ class AuthTestCase(TestBaseCase):
     test class for the registration endpoint
     """
 
+    def setUp(self):
+        TestBaseCase.setUp(self)
+
     def test_signup(self):
         """Test if a user can signup"""
         response2 = self.client.post('/auth/v2/signup',

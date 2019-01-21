@@ -42,7 +42,7 @@ class UserModel:
         user_response = QuestionerDb.retrieve_one(user_email_query)
         if not user_response:
             return False
-        return True
+        return user_response
 
     def validate_password(self, userpassword, user_email):
         query = """SELECT userpassword FROM users WHERE email='{}'""".format(
@@ -59,7 +59,7 @@ class UserModel:
             payload = {
                 'exp': datetime.utcnow() + timedelta(minutes=60),
                 'iat': datetime.utcnow(),
-                'email': self.email
+                'email': email
             }
             token = jwt.encode(
                 payload,

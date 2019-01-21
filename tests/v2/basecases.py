@@ -8,7 +8,7 @@ from app.api.v2.dbmodel import QuestionerDb
 class TestBaseCase(unittest.TestCase):
     """Base Testing Class."""
 
-    def setup(self):
+    def setUp(self):
         self.app = create_app('testing')
         self.client = self.app.test_client()
         self.client.testing = True
@@ -30,6 +30,27 @@ class TestBaseCase(unittest.TestCase):
             "phoneNumber": "0703912965",
             "username": "Koin254",
             "email": "derrick@koin.com",
+            "userpassword": "password"
+        }
+
+        self.user_one_login = {
+            "email": "barclay@koin.com",
+            "userpassword": "password"
+        }
+
+        self.non_existent_user = {
+            "email": "bar@clay.com",
+            "userpassword": "password"
+        }
+
+        self.wrong_password = {
+            "email": "barclay@koin.com",
+            "userpassword": "password123"
+        }
+
+        self.wrong_key = {
+            "emal": "barclay@koin.com",
+            #  should be email
             "userpassword": "password"
         }
 

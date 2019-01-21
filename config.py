@@ -24,7 +24,7 @@ class Testing(Config):
     """
     TESTING = True
     DEBUG = True
-    DATABASE_URI_TEST = os.getenv('TEST_DB_URI')
+    DATABASE_URI = os.getenv('TEST_DB_URI')
 
 
 class Production(Config):

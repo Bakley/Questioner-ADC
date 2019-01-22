@@ -47,3 +47,14 @@ class MeetupsModel:
             "upcoming_meetup": response
         }
         return payload
+
+    def delete_a_specific_meetup(self, id):
+        """Admin can delete a meetup"""
+        fetch_query_for_delete = """SELECT * FROM meetups
+        WHERE meetupId={}""".format(id)
+        response = QuestionerDb.retrieve_one(fetch_query_for_delete)
+        print("Delete this", response)
+        if not response:
+            return False
+        delete_query = """DELETE FROM meetups WHERE meetupid={};""".format(id)
+        QuestionerDb.deletion(delete_query)

@@ -89,6 +89,27 @@ class SpecificMeetup(Resource):
             "data": new_meetup
         }, 200
 
+    def delete(self, meetup_id):
+        """Method for Admin to delete a record"""
+        try:
+            meetup_id = int(meetup_id)
+        except Exception:
+            return {
+                "status": 404,
+                "error": "Url need an integer"
+            }, 404
+        deleted_meetup = meetup_views.delete_a_specific_meetup(id=meetup_id)
+
+        if deleted_meetup:
+            return {
+                "status": 404,
+                "error": "Meetup of id {} not found".format(meetup_id)
+            }, 404
+        return {
+            "status": 200,
+            "data": "Meetup of id {} deleted".format(meetup_id)
+        }, 200
+
 
 class UpcomingMeetups(Resource):
     """Class to get upcoming meetups"""

@@ -1,70 +1,73 @@
 """Module for all User authentication"""
 import os
-from functools import wraps
-
 import jwt
-from app.auth.v2.models import UserModel
-from flask import request
+from functools import wraps
+from flask import request, current_app
 
 
-class Authenticate:
-    """Class to authenticate all users"""
+def token_required(func):
+    """User login authentication decorator"""
 
-    def token_required(f):
+    @wraps(func)
+    def user_auth(*args, **kwargs):
         """User login authentication decorator"""
-
-        @wraps(func)
-        def decorated(*args, **kwargs):
-            """User login authentication decorator"""
-            access_token = None
+        if 'Bearer' in request.headers:
+            token = request.headers['Bearer']
             try:
-                authorization_header = request.headers.get('Authorization')
-                if authorization_header:
-                    access_token = authorization_header.split(' ')[1]
-                if access_token:
-                    user_email = UserModel.decode_token(access_token)['email']
-                    return func(user_email=user_email, *args, **kwargs)
+                data = jwt.decode(
+                    token,
+                    str(current_app.config.get('SECRET')),
+                    algorithm='HS256'
+                )
+            except jwt.ExpiredSignatureError:
                 return {
                     "status": 401,
-                    "message":
-                    "Please login first, your session might have expired"}, 401
-            except Exception as e:
-                return {
-                    "status": 400,
-                    "message":
-                    "An error occurred while decoding token.",
-                    "error": str(e)}, 400
-        return decorated
-
-    def admin_required(self):
-        """Admin authentication decorator"""
-        @wraps(f)
-        def admin_auth(*args, **kwargs):
-            """Admin authentication decorator"""
-            if 'x-access-token' in request.headers:
-                token = request.headers['x-access-token']
-                try:
-                    data = jwt.decode(
-                        token,
-                        os.getenv("SECRET_KEY"),
-                        algorithm='HS256'
-                    )
-                except jwt.ExpiredSignatureError:
-                    return {
-                        "status": 401,
-                        "error": "Login expired. Please login again"
-                    }, 401
-                except jwt.InvalidTokenError:
-                    return {
-                        "status": 401,
-                        "error": "Invalid token. Please login again"
-                    }, 401
-                user = UserModel.check_for_admin(self, data['email'])
-                if user:
-                    return f(current_user=data['email'], *args, **kwargs)
-            else:
-                return {
-                    "status": 401,
-                    "error": "You are not authorized to perform this action"
+                    "error": "Login expired. Please login again"
                 }, 401
-        return admin_auth
+            except jwt.InvalidTokenError:
+                return {
+                    "status": 401,
+                    "error": "Invalid token. Please login again"
+                }, 401
+
+            return func(current_user=data['email'], *args, **kwargs)
+        else:
+            return {
+                "status": 401,
+                "error": "You are not logged in"
+            }, 401
+    return user_auth
+
+
+def admin_required(f):
+    """Admin authentication decorator"""
+    @wraps(f)
+    def admin_auth(*args, **kwargs):
+        """Admin authentication decorator"""
+        if 'Bearer' in request.headers:
+            token = request.headers['Bearer']
+            try:
+                data = jwt.decode(
+                    token,
+                    os.getenv("SECRET_KEY"),
+                    algorithm='HS256'
+                )
+            except jwt.ExpiredSignatureError:
+                return {
+                    "status": 401,
+                    "error": "Login expired. Please login again"
+                }, 401
+            except jwt.InvalidTokenError:
+                return {
+                    "status": 401,
+                    "error": "Invalid token. Please login again"
+                }, 401
+            user = user_decorator.check_for_admin(self, data['email'])
+            if user:
+                return f(current_user=data['email'], *args, **kwargs)
+        else:
+            return {
+                "status": 401,
+                "error": "You are not authorized to perform this action"
+            }, 401
+    return admin_auth

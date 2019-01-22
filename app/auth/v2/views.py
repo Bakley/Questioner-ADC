@@ -112,7 +112,7 @@ class UserLogin(Resource):
             response = {
                 "id": user_email_exist["userid"],
                 "username": user_email_exist["username"],
-                "registered": user_email_exist["registered"]
+                # "registered": user_email_exist["registered"]
             }
 
         return{

@@ -166,6 +166,14 @@ class QuestionerDb:
         return resp
 
     @classmethod
+    def deletion(cls, query):
+        """
+        method to delete record
+        """
+        cls.cur.execute(query)
+        cls.conn.commit()
+
+    @classmethod
     def drop_all(cls):
         """
         Destroys tables form the database

@@ -64,7 +64,7 @@ def admin_required(f):
                 }, 401
             user = user_decorator.check_for_admin(self, data['email'])
             if user:
-                return f(current_user=data['email'], *args, **kwargs)
+                return f(*args, **kwargs, current_user=data['email'])
         else:
             return {
                 "status": 401,

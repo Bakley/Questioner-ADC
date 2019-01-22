@@ -106,7 +106,12 @@ class UserLogin(Resource):
                 "error": "Invalid password. Please provide correct password"
             }, 400
 
-        auth_token = user_view.generate_token(user_email_exist['email'],['isadmin'])
+        auth_token = user_view.generate_token(
+            {
+                "check_email": user_email_exist['email'],
+                "checkadmin": user_email_exist['isadmin']
+            }
+        )
 
         if not auth_token:
             return {
@@ -118,7 +123,7 @@ class UserLogin(Resource):
             response = {
                 "id": user_email_exist["userid"],
                 "username": user_email_exist["username"],
-                "is_admin" : user_email_exist["isadmin"]
+                "is_admin": user_email_exist["isadmin"]
             }
 
         return{

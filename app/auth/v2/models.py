@@ -53,7 +53,7 @@ class UserModel:
             return False
         return True
 
-    def generate_token(self, email, is_admin):
+    def generate_token(self, email, isadmin):
         """Method to generate token"""
         try:
             print("Which email am I?", email)
@@ -61,7 +61,7 @@ class UserModel:
                 'exp': datetime.utcnow() + timedelta(minutes=60),
                 'iat': datetime.utcnow(),
                 'email': email,
-                'is_admin': is_admin
+                'isadmin': isadmin
             }
             token = jwt.encode(
                 payload,

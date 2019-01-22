@@ -1,28 +1,24 @@
 """Meetup CRUD functionality"""
+import datetime
 from app.api.v2.dbmodel import QuestionerDb
 
 
 class MeetupsModel:
     """CRUD functionality for the model"""
 
-    def create_meetup(self, userid, location, topic, tags, happeningon):
+    def create_meetup(self, location, topic, tags):
         """Method to create a model record"""
-        payload = {
-            "userid": userid,
-            "topic": topic,
-            "location": location,
-            "tags": tags,
-            "happeningon": happeningon
-
-        }
         meetup_query = """INSERT INTO
-                        meetups (userid, location, topic, tags, happeningon)
-                        VALUES (%s, %s, %s, %(date)s)
+                        meetups (location, topic, tags)
+                        VALUES (%s, %s, %s)
+                        RETURNING meetupId, location, topic, tags
                         """
 
-        meetup_tuple = (userid, location, topic, tags, happeningon)
-        QuestionerDb.persist_to_db(meetup_query, meetup_tuple)
-        return payload
+        meetup_tuple = (location, topic, tags)
+        print("Tuple", meetup_tuple)
+        res = QuestionerDb.add_to_db(meetup_query, meetup_tuple)
+        print("Meetup response", res)
+        return res
 
     def get_a_specific_meetup(self, id):
         """Get one meetup by id"""
@@ -34,5 +30,20 @@ class MeetupsModel:
             return False
         payload = {
             "one_meetup": response
+        }
+        return payload
+
+    def get_all_meetups(self):
+        """Get all upcoming meetups"""
+
+        current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+        upcoming_query = """SELECT meetupId, topic, location, happeningOn, tags
+         FROM meetups WHERE happeningOn > '{}'""".format(
+            current_time)
+        response = QuestionerDb.retrieve_all(upcoming_query)
+        if not response:
+            return False
+        payload = {
+            "upcoming_meetup": response
         }
         return payload

@@ -108,7 +108,9 @@ class UserLogin(Resource):
 
         auth_token = user_view.generate_token(
             {
-                "check_email": user_email_exist['email'],
+                "check_email": user_email_exist['email']
+            },
+            {
                 "checkadmin": user_email_exist['isadmin']
             }
         )

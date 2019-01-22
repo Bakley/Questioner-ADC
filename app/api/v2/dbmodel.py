@@ -51,7 +51,7 @@ class QuestionerDb:
             title VARCHAR NOT NULL,
             body VARCHAR NOT NULL,
             votes INTEGER NOT NULL,
-            createdOn TIMESTAMP NOT NULL,
+            createdOn TIMESTAMP default current_timestamp,
             FOREIGN KEY (meetupId) REFERENCES meetups (meetupId) ON DELETE CASCADE,
             FOREIGN KEY (userId) REFERENCES users (userId) ON DELETE CASCADE
             );
@@ -164,6 +164,14 @@ class QuestionerDb:
         resp = cls.cur.execute(query_string)
         cls.conn.commit()
         return resp
+
+    @classmethod
+    def deletion(cls, query):
+        """
+        method to delete record
+        """
+        cls.cur.execute(query)
+        cls.conn.commit()
 
     @classmethod
     def drop_all(cls):

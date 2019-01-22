@@ -61,3 +61,27 @@ class MeetupViewsResource(Resource):
             "data": meetup,
             "Message": "meetup successfully created"
         }, 201
+
+
+class SpecificMeetup(Resource):
+    """Get a specific meetup"""
+
+    def get(self, meetup_id):
+        """Method to get a specific meetup"""
+        try:
+            meetup_id = int(meetup_id)
+        except Exception:
+            return {
+                "status": 404,
+                "error": "Url need an integer"
+            }, 404
+        new_meetup = meetup_views.get_a_specific_meetup(id=meetup_id)
+        if not new_meetup:
+            return {
+                "status": 404,
+                "error": "Meetup of id {} not found".format(meetup_id)
+            }, 404
+        return {
+            "status": 200,
+            "data": new_meetup
+        }, 200

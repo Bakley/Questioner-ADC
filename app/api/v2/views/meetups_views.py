@@ -1,5 +1,7 @@
 """Meetup views file"""
+import json
 from flask_restful import Resource, reqparse
+
 from datetime import datetime
 from app.utilities.auth_token_generator import token_required, admin_required
 from app.api.v2.models import meetup_models
@@ -27,7 +29,6 @@ class MeetupViewsResource(Resource):
             location = args.get('location')
             topic = args.get('topic')
             tags = args.get('tags')
-            happeninon = args.get('happeningon')
         except Exception:
             return {
                 "status": 400,
@@ -50,11 +51,11 @@ class MeetupViewsResource(Resource):
             }, 400
 
         meetup = meetup_views.create_meetup(
-            userid=args.get('userid'),
             location=args.get('location'),
             topic=args.get('topic'),
             tags=args.get('tags'),
-            happeningon=args.get('happeningon'))
+        )
+        print("meetup_view", meetup)
 
         return {
             "status": 201,
@@ -76,6 +77,8 @@ class SpecificMeetup(Resource):
                 "error": "Url need an integer"
             }, 404
         new_meetup = meetup_views.get_a_specific_meetup(id=meetup_id)
+        new_meetup = json.dumps(new_meetup, default=str)
+        new_meetup = json.loads(new_meetup)
         if not new_meetup:
             return {
                 "status": 404,
@@ -84,4 +87,24 @@ class SpecificMeetup(Resource):
         return {
             "status": 200,
             "data": new_meetup
+        }, 200
+
+
+class UpcomingMeetups(Resource):
+    """Class to get upcoming meetups"""
+
+    def get(self):
+        """Method to get upcoming meetups"""
+        upcoming_meetups = meetup_views.get_all_meetups()
+        upcoming_meetups = json.dumps(upcoming_meetups, default=str)
+        upcoming_meetups = json.loads(upcoming_meetups)
+
+        if not upcoming_meetups:
+            return {
+                "status": 404,
+                "error": "No upcoming meetups"
+            }, 404
+        return {
+            "status": 200,
+            "data": upcoming_meetups
         }, 200

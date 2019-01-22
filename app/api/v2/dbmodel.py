@@ -37,14 +37,12 @@ class QuestionerDb:
             );
             CREATE TABLE IF NOT EXISTS meetups(
             meetupId serial PRIMARY KEY,
-            userId  INTEGER NOT NULL,
             location VARCHAR NOT NULL,
             topic VARCHAR NOT NULL,
             tags TEXT [] NOT NULL,
             images VARCHAR [],
             createdOn TIMESTAMP default current_timestamp,
-            happeningOn TIMESTAMP NOT NULL,
-            FOREIGN KEY (userId) REFERENCES users (userId) ON DELETE CASCADE
+            happeningOn TIMESTAMP default current_timestamp
             );
             CREATE TABLE IF NOT EXISTS questions(
             questionid serial PRIMARY KEY,

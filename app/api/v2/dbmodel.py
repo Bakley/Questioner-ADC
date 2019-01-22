@@ -40,9 +40,9 @@ class QuestionerDb:
             userId  INTEGER NOT NULL,
             location VARCHAR NOT NULL,
             topic VARCHAR NOT NULL,
-            tags TEXT []NOT NULL,
+            tags TEXT [] NOT NULL,
             images VARCHAR [],
-            createdOn TIMESTAMP NOT NULL,
+            createdOn TIMESTAMP default current_timestamp,
             happeningOn TIMESTAMP NOT NULL,
             FOREIGN KEY (userId) REFERENCES users (userId) ON DELETE CASCADE
             );
@@ -120,6 +120,17 @@ class QuestionerDb:
             cls.conn.commit()
             response = cls.cur.fetchall()
             return response
+        except Exception as e:
+            print(e.pgerror)
+
+    @classmethod
+    def persist_to_db(cls, query_string, tuple_data):
+        """
+        method that saves queries into the database
+        """
+        try:
+            cls.cur.execute(query_string, tuple_data)
+            cls.conn.commit()
         except Exception as e:
             print(e.pgerror)
 

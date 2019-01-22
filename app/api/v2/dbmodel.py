@@ -40,9 +40,9 @@ class QuestionerDb:
             userId  INTEGER NOT NULL,
             location VARCHAR NOT NULL,
             topic VARCHAR NOT NULL,
-            tags TEXT []NOT NULL,
+            tags TEXT [] NOT NULL,
             images VARCHAR [],
-            createdOn TIMESTAMP NOT NULL,
+            createdOn TIMESTAMP default current_timestamp,
             happeningOn TIMESTAMP NOT NULL,
             FOREIGN KEY (userId) REFERENCES users (userId) ON DELETE CASCADE
             );
@@ -79,7 +79,7 @@ class QuestionerDb:
             cls.conn.commit()
             QuestionerDb.persist_to_db_admin()
             print("Table created successfully in PostgreSQL ")
-        except (Exception, psycopg2.Error) as e:
+        except Exception as e:
             print("on db = ", e)
 
     @classmethod
@@ -108,7 +108,7 @@ class QuestionerDb:
                 cls.conn.commit()
                 print("Admin added!")
         except Exception as e:
-            print(e.pgerror)
+            print(e)
 
     @classmethod
     def add_to_db(cls, query_string, tuple_data):
@@ -121,7 +121,18 @@ class QuestionerDb:
             response = cls.cur.fetchall()
             return response
         except Exception as e:
-            print(e.pgerror)
+            print(e)
+
+    @classmethod
+    def persist_to_db(cls, query_string, tuple_data):
+        """
+        method that saves queries into the database
+        """
+        try:
+            cls.cur.execute(query_string, tuple_data)
+            cls.conn.commit()
+        except Exception as e:
+            print(e)
 
     @classmethod
     def check_email(cls, query_string, tuple_data):

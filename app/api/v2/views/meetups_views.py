@@ -1,6 +1,6 @@
 """Meetup views file"""
-import re
 from flask_restful import Resource, reqparse
+from datetime import datetime
 from app.utilities.auth_token_generator import token_required, admin_required
 from app.api.v2.models import meetup_models
 from app.utilities.validator_file import (check_for_empty_string)
@@ -17,23 +17,22 @@ class MeetupViewsResource(Resource):
                         help='topic cannot be blank', type=str)
     parser.add_argument('tags',
                         help='Tags cannot be blank', action='append')
+    # @admin_required
 
-    @admin_required
     def post(self):
         """Admin create a meetup"""
         try:
-            # userid = current_user['userid']
+            # userid = current_user['email']
             args = MeetupViewsResource.parser.parse_args()
-            userid = args.get('userid')
             location = args.get('location')
             topic = args.get('topic')
             tags = args.get('tags')
-            happeningon = args.get('happeningon')
+            happeninon = args.get('happeningon')
         except Exception:
             return {
                 "status": 400,
                 "error":
-                "Invalid Key field. Missing or wrongly spelled Keys, should be location, topic and tags"
+                "Invalid Key field. Missing or wrongly spelled Keys, should be location, topic tags and happeningon"
             }, 400
 
         if check_for_empty_string(location):
@@ -49,14 +48,6 @@ class MeetupViewsResource(Resource):
                 "error":
                 "Please provide a topic for the Meetup"
             }, 400
-
-        # for key, value in args.items():
-        #     if not value.isalpha():
-        #         return {
-        #             "status": 400,
-        #             "Error":
-        #             "Make sure you only use letters in your {}".format(key)
-        #         }, 400
 
         meetup = meetup_views.create_meetup(
             userid=args.get('userid'),

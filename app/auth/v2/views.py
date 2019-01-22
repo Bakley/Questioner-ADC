@@ -4,6 +4,12 @@ import json
 user_view = UserModel()
 
 
+# def valid_admin(username):
+#     """Validate admin"""
+#     user = UserModel.check_admin(self, email)
+#     return user
+
+
 class UserRegister(Resource):
     """User class view to register"""
     parser = reqparse.RequestParser()
@@ -100,7 +106,7 @@ class UserLogin(Resource):
                 "error": "Invalid password. Please provide correct password"
             }, 400
 
-        auth_token = user_view.generate_token(user_email_exist['email'])
+        auth_token = user_view.generate_token(user_email_exist['email'],['isadmin'])
 
         if not auth_token:
             return {
@@ -112,7 +118,7 @@ class UserLogin(Resource):
             response = {
                 "id": user_email_exist["userid"],
                 "username": user_email_exist["username"],
-                # "registered": user_email_exist["registered"]
+                "is_admin" : user_email_exist["isadmin"]
             }
 
         return{

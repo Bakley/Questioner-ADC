@@ -30,10 +30,10 @@ class UserModel:
 
     def check_for_admin(self, email):
         """Method to check for an Admin"""
-        admin_query = """SELECT isAdmin FROM  users
+        admin_query = """SELECT isAdmin, email FROM  users
                         WHERE email = '{}'""".format(email)
         response = QuestionerDb.retrieve_one(admin_query)
-        if response['isAdmin'] is True:
+        if response['isadmin'] is True:
             return response
 
     def get_user_by_email(self, email):
@@ -53,13 +53,15 @@ class UserModel:
             return False
         return True
 
-    def generate_token(self, email):
+    def generate_token(self, email, is_admin):
         """Method to generate token"""
         try:
+            print("Which email am I?", email)
             payload = {
                 'exp': datetime.utcnow() + timedelta(minutes=60),
                 'iat': datetime.utcnow(),
-                'email': email
+                'email': email,
+                'is_admin': is_admin
             }
             token = jwt.encode(
                 payload,

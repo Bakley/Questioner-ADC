@@ -3,6 +3,8 @@ import os
 import jwt
 from functools import wraps
 from flask import request, current_app
+# from app.auth.v2.models import UserModel
+# from app.auth.v2.views import valid_admin
 
 
 def token_required(func):
@@ -27,7 +29,7 @@ def token_required(func):
             except jwt.InvalidTokenError:
                 return {
                     "status": 401,
-                    "error": "Invalid token. Please login again"
+                    "error": "Invalid token user. Please login again"
                 }, 401
 
             return func(current_user=data['email'], *args, **kwargs)
@@ -41,28 +43,33 @@ def token_required(func):
 
 def admin_required(f):
     """Admin authentication decorator"""
+
     @wraps(f)
     def admin_auth(*args, **kwargs):
         """Admin authentication decorator"""
         if 'Bearer' in request.headers:
             token = request.headers['Bearer']
+            print("Admin token", token)
             try:
                 data = jwt.decode(
                     token,
                     os.getenv("SECRET_KEY"),
                     algorithm='HS256'
-                )
+                ).decode('UTF-8')
             except jwt.ExpiredSignatureError:
                 return {
                     "status": 401,
                     "error": "Login expired. Please login again"
                 }, 401
-            except jwt.InvalidTokenError:
+            except jwt.InvalidTokenError as e:
+                print("hello", e)
                 return {
                     "status": 401,
-                    "error": "Invalid token. Please login again"
+                    "error": "Invalid token Admin. Please login again"
                 }, 401
-            user = user_decorator.check_for_admin(self, data['email'])
+
+            # user = UserModel.check_for_admin(self, data['email'])
+            print("Admin", user)
             if user:
                 return f(*args, **kwargs, current_user=data['email'])
         else:

@@ -70,6 +70,14 @@ class QuestionerDb:
             ON UPDATE CASCADE ON DELETE CASCADE,
             comment varchar NOT NULL
             );
+            CREATE TABLE IF NOT EXISTS votes(
+            voteId serial PRIMARY KEY NOT NULL,
+            question INTEGER NOT NULL,
+            upvote INTEGER NOT NULL,
+            downvote INTEGER NOT NULL,
+            FOREIGN KEY (question) REFERENCES questions(questionId)\
+            ON UPDATE CASCADE ON DELETE CASCADE
+            );
             """
                             )
             cls.conn.commit()

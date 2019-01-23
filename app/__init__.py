@@ -6,6 +6,7 @@ from app.auth.v2 import version_2auth
 from app.api.v2 import version_2
 from app.api.v2.dbmodel import QuestionerDb
 from config import app_config
+from flask_jwt_extended import JWTManager
 
 
 def create_app(config_name):
@@ -21,6 +22,9 @@ def create_app(config_name):
 
     app.register_blueprint(version_2auth)
     app.register_blueprint(version_2)
+
+    app.config['JWT_SECRET_KEY'] = 'super-secret-key'
+    jwt = JWTManager(app)
 
     return app
 

@@ -50,10 +50,8 @@ class QuestionerDb:
             meetupId INTEGER NOT NULL,
             title VARCHAR NOT NULL,
             body VARCHAR NOT NULL,
-            votes INTEGER NOT NULL,
-            createdOn TIMESTAMP default current_timestamp,
-            FOREIGN KEY (meetupId) REFERENCES meetups (meetupId) ON DELETE CASCADE,
-            FOREIGN KEY (userId) REFERENCES users (userId) ON DELETE CASCADE
+            votes INTEGER default 0,
+            createdOn TIMESTAMP default current_timestamp
             );
             CREATE TABLE IF NOT EXISTS rsvps(
             rsvpId serial PRIMARY KEY NOT NULL,
@@ -100,8 +98,9 @@ class QuestionerDb:
                 RETURNING userid, email, username, isAdmin;"""
                 hashed_password = generate_password_hash("Admin@254")
                 tuple_data = ('superuser', 'superadmin', 'Broadminded',
-                              'Admin', '{}', 'super@admin.org', '0703912965',
-                              'TRUE').format(hashed_password)
+                              'Admin', hashed_password,
+                              'super@admin.org', '0703912965',
+                              'TRUE')
                 cls.cur.execute(query_insert_admin, tuple_data)
                 cls.conn.commit()
                 print("Admin added!")

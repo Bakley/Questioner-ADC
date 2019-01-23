@@ -44,6 +44,15 @@ class UserModel:
             return False
         return user_response
 
+    def get_user_by_id(self, id):
+        """Get a user by id"""
+        user_id_query = """SELECT * FROM users WHERE userId = '{}'""".format(
+            id)
+        user_response = QuestionerDb.retrieve_one(user_id_query)
+        if not user_response:
+            return False
+        return user_response
+
     def validate_password(self, userpassword, user_email):
         query = """SELECT userpassword FROM users WHERE email='{}'""".format(
             user_email)

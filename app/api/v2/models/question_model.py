@@ -32,3 +32,19 @@ class QuestionModel:
             "question": response
         }
         return payload
+
+    def downvote_question(self, id):
+        """User can upvote"""
+        downvote_query = """UPDATE questions
+        SET votes = votes + 1
+        WHERE questionid = '{}'""".format(id)
+        QuestionerDb.update_row(downvote_query)
+        fetch_query = """SELECT * FROM questions
+        WHERE questionid = '{}'""".format(id)
+        response = QuestionerDb.retrieve_all(fetch_query)
+        if not response:
+            return False
+        payload = {
+            "question": response
+        }
+        return payload

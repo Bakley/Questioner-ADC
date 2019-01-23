@@ -26,6 +26,7 @@ class QuestionModel:
         fetch_query = """SELECT * FROM questions
         WHERE questionid = '{}'""".format(id)
         response = QuestionerDb.retrieve_all(fetch_query)
+        print(response)
         if not response:
             return False
         payload = {

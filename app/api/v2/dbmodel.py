@@ -75,6 +75,7 @@ class QuestionerDb:
             question INTEGER NOT NULL,
             upvote INTEGER NOT NULL,
             downvote INTEGER NOT NULL,
+            votetype VARCHAR NOT NULL,
             FOREIGN KEY (question) REFERENCES questions(questionId)\
             ON UPDATE CASCADE ON DELETE CASCADE
             );

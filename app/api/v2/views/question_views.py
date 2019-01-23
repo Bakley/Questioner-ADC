@@ -4,7 +4,7 @@ from flask_restful import Resource, reqparse
 # from app.auth.v2 import models
 
 from datetime import datetime
-from app.utilities.auth_token_generator import token_required, admin_required
+from flask_jwt_extended import jwt_required
 from app.api.v2.models import question_model, meetup_models
 from app.utilities.validator_file import (
     check_for_empty_string, check_number_format)
@@ -26,8 +26,7 @@ class QuestionViewsResource(Resource):
     parser.add_argument('meetupId', required=True,
                         help='Meetup Id cannot be blank', type=int)
 
-    # @admin_required
-
+    @jwt_required
     def post(self, meetup_id):
         """Admin create a meetup"""
 
@@ -121,6 +120,7 @@ class QuestionViewsResource(Resource):
 class UpvoteResource(Resource):
     """Upvote view class"""
 
+    @jwt_required
     def patch(self, questions_id):
         """Upvote method, increments a vote by 1"""
         try:
@@ -149,6 +149,7 @@ class UpvoteResource(Resource):
 class DownvoteResource(Resource):
     """Downvote view class"""
 
+    @jwt_required
     def patch(self, questions_id):
         """Downvote method, decrements a vote by 1"""
 

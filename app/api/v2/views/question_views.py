@@ -116,3 +116,31 @@ class QuestionViewsResource(Resource):
             "data": question,
             "Message": "Question successfully created"
         }, 201
+
+
+class UpvoteResource(Resource):
+    """Upvote view class"""
+
+    def patch(self, questions_id):
+        """Upvote method, increments a vote by 1"""
+        try:
+            questions_id = int(questions_id)
+        except Exception:
+            return {
+                "status": 404,
+                "error": "Resource Identifier need an integer"
+            }, 404
+
+        new_question_vote = question_views.upvote_question(id=questions_id)
+        new_question_vote = json.dumps(new_question_vote, default=str)
+        new_question_vote = json.loads(new_question_vote)
+
+        if not new_question_vote:
+            return {
+                "status": 404,
+                "error": "No question found"
+            }, 404
+        return {
+            "status": 200,
+            "data": new_question_vote
+        }

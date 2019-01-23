@@ -140,7 +140,6 @@ class UserLogin(Resource):
             "status": 201,
             "data": [{
                 "Token": create_access_token(identity=args.get('email')),
-                # "token": auth_token.decode('UTF-8'),
                 "user": response
             }
             ]

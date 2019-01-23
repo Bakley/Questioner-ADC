@@ -3,7 +3,6 @@ import json
 from flask_restful import Resource, reqparse
 
 from flask_jwt_extended import jwt_required
-from app.utilities.auth_token_generator import token_required, admin_required
 from app.api.v2.models import meetup_models
 from app.utilities.validator_file import (check_for_empty_string)
 
@@ -24,7 +23,6 @@ class MeetupViewsResource(Resource):
     def post(self):
         """Admin create a meetup"""
         try:
-            # userid = current_user['email']
             args = MeetupViewsResource.parser.parse_args()
             location = args.get('location')
             topic = args.get('topic')
@@ -66,7 +64,8 @@ class MeetupViewsResource(Resource):
 
 class SpecificMeetup(Resource):
     """Get a specific meetup"""
-    # @jwt_required
+
+    @jwt_required
     def get(self, meetup_id):
         """Method to get a specific meetup"""
         try:
@@ -114,6 +113,7 @@ class SpecificMeetup(Resource):
 class UpcomingMeetups(Resource):
     """Class to get upcoming meetups"""
 
+    @jwt_required
     def get(self):
         """Method to get upcoming meetups"""
         upcoming_meetups = meetup_views.get_all_meetups()

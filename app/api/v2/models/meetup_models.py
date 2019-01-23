@@ -15,9 +15,7 @@ class MeetupsModel:
                         """
 
         meetup_tuple = (location, topic, tags)
-        print("Tuple", meetup_tuple)
         res = QuestionerDb.add_to_db(meetup_query, meetup_tuple)
-        print("Meetup response", res)
         return res
 
     def get_a_specific_meetup(self, id):
@@ -36,8 +34,8 @@ class MeetupsModel:
     def get_a_specific_meetup_id(self, id):
         """Get one meetup by id"""
 
-        fetch_query = """SELECT meetupId FROM meetups WHERE meetupId={}""".format(
-            id)
+        fetch_query = """SELECT meetupId FROM meetups
+        WHERE meetupId={}""".format(id)
         response = QuestionerDb.retrieve_all(fetch_query)
         if not response:
             return False

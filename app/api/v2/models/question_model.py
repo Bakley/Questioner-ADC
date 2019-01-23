@@ -36,7 +36,7 @@ class QuestionModel:
     def downvote_question(self, id):
         """User can upvote"""
         downvote_query = """UPDATE questions
-        SET votes = votes + 1
+        SET votes = votes - 1
         WHERE questionid = '{}'""".format(id)
         QuestionerDb.update_row(downvote_query)
         fetch_query = """SELECT * FROM questions

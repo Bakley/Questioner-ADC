@@ -144,3 +144,33 @@ class UpvoteResource(Resource):
             "status": 200,
             "data": new_question_vote
         }
+
+
+class DownvoteResource(Resource):
+    """Downvote view class"""
+
+    def patch(self, questions_id):
+        """Downvote method, decrements a vote by 1"""
+
+        try:
+            questions_id = int(questions_id)
+        except Exception:
+            return {
+                "status": 404,
+                "error": "Resource Identifier need an integer"
+            }, 404
+
+        new_question_downvote = question_views.downvote_question(
+            id=questions_id)
+        new_question_downvote = json.dumps(new_question_downvote, default=str)
+        new_question_downvote = json.loads(new_question_downvote)
+
+        if not new_question_downvote:
+            return {
+                "status": 404,
+                "error": "No question found"
+            }, 404
+        return {
+            "status": 200,
+            "data": new_question_downvote
+        }

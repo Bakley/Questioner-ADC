@@ -33,6 +33,19 @@ class MeetupsModel:
         }
         return payload
 
+    def get_a_specific_meetup_id(self, id):
+        """Get one meetup by id"""
+
+        fetch_query = """SELECT meetupId FROM meetups WHERE meetupId={}""".format(
+            id)
+        response = QuestionerDb.retrieve_all(fetch_query)
+        if not response:
+            return False
+        payload = {
+            "one_meetup": response
+        }
+        return payload
+
     def get_all_meetups(self):
         """Get all upcoming meetups"""
 

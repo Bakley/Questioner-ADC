@@ -1,6 +1,9 @@
 from flask_restful import Resource, reqparse
 from app.auth.v2.models import UserModel
 import json
+
+from flask_jwt_extended import create_access_token, create_refresh_token
+
 user_view = UserModel()
 
 
@@ -45,6 +48,9 @@ class UserRegister(Resource):
                 "error": "Invalid Key error {}".format(e)
             }, 400
 
+        access_token = create_access_token(identity=args.get('email'))
+        renewal_token = create_refresh_token(identity=args.get('email'))
+
         new_user = user_view.create_user(firstname=args.get('firstname'),
                                          lastname=args.get('lastname'),
                                          othername=args.get('othername'),
@@ -64,6 +70,8 @@ class UserRegister(Resource):
 
         return {
             "status": 201,
+            "Token": access_token,
+            "Refresh Token": renewal_token,
             "data": new_user
         }, 201
 
@@ -131,7 +139,8 @@ class UserLogin(Resource):
         return{
             "status": 201,
             "data": [{
-                "token": auth_token.decode('UTF-8'),
+                "Token": create_access_token(identity=args.get('email')),
+                # "token": auth_token.decode('UTF-8'),
                 "user": response
             }
             ]

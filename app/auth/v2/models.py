@@ -11,6 +11,7 @@ class UserModel:
     """Class for the user models"""
 
     def create_user(self, firstname, lastname, othername, username, userpassword, email, phoneNumber):
+        """Create a user record"""
         hashed_password = generate_password_hash(userpassword)
         email_query = """SELECT * FROM users WHERE email = '{}'""".format(
             email)
@@ -37,6 +38,7 @@ class UserModel:
             return response
 
     def get_user_by_email(self, email):
+        """Get user by email"""
         user_email_query = """SELECT * FROM users WHERE email = '{}'""".format(
             email)
         user_response = QuestionerDb.retrieve_one(user_email_query)
@@ -54,6 +56,7 @@ class UserModel:
         return user_response
 
     def validate_password(self, userpassword, user_email):
+        """Method to check if password matches"""
         query = """SELECT userpassword FROM users WHERE email='{}'""".format(
             user_email)
         result = QuestionerDb.retrieve_one(query)

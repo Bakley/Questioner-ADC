@@ -1,16 +1,12 @@
 """Meetup views file"""
 import json
 from flask_restful import Resource, reqparse
-# from app.auth.v2 import models
-
-from datetime import datetime
 from flask_jwt_extended import jwt_required
 from app.api.v2.models import question_model, meetup_models
 from app.utilities.validator_file import (
     check_for_empty_string, check_number_format)
 
 question_views = question_model.QuestionModel()
-# user_views = models.UserModel()
 meetup_views = meetup_models.MeetupsModel()
 
 
@@ -50,10 +46,7 @@ class QuestionViewsResource(Resource):
                 "Invalid Key field. Missing or wrongly spelled Keys, should be title and body"
             }, 400
 
-        print("Arguments", args['meetupId'])
-
         # Check for user
-
         question_meetup = meetup_views.get_a_specific_meetup_id(id=meetup_id)
         print("Qst meetup", question_meetup)
         if not question_meetup:
@@ -79,8 +72,7 @@ class QuestionViewsResource(Resource):
                     "error": "Resource Identifier need an integer"
                 }, 404
 
-            # check if meetup url and passed url are equal
-
+        # check if meetup url and passed url are equal
         if args['meetupId'] != meetup_id:
             return {
                 "status": 404,

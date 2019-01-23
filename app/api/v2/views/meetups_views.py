@@ -23,7 +23,6 @@ class MeetupViewsResource(Resource):
     def post(self):
         """Admin create a meetup"""
         try:
-            # userid = current_user['email']
             args = MeetupViewsResource.parser.parse_args()
             location = args.get('location')
             topic = args.get('topic')
@@ -65,6 +64,7 @@ class MeetupViewsResource(Resource):
 
 class SpecificMeetup(Resource):
     """Get a specific meetup"""
+
     @jwt_required
     def get(self, meetup_id):
         """Method to get a specific meetup"""

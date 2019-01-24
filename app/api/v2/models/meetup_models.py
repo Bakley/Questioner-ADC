@@ -21,8 +21,8 @@ class MeetupsModel:
     def get_a_specific_meetup(self, id):
         """Get one meetup by id"""
 
-        fetch_query = """SELECT * FROM meetups WHERE meetupId={}""".format(
-            id)
+        fetch_query = """SELECT * FROM meetups
+        WHERE meetupId={}""".format(id)
         response = QuestionerDb.retrieve_all(fetch_query)
         if not response:
             return False
@@ -49,7 +49,7 @@ class MeetupsModel:
 
         current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
         upcoming_query = """SELECT meetupId, topic, location, happeningOn, tags
-         FROM meetups WHERE happeningOn > '{}'""".format(
+         FROM meetups WHERE happeningOn < '{}'""".format(
             current_time)
         response = QuestionerDb.retrieve_all(upcoming_query)
         if not response:

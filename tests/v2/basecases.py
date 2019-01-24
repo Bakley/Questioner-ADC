@@ -9,14 +9,29 @@ class TestBaseCase(unittest.TestCase):
     """Base Testing Class."""
 
     def setUp(self):
-        self.app = create_app('testing')
-        self.client = self.app.test_client()
+        app = create_app('testing')
+        app.app_context().push()
+
+        self.client = app.test_client()
         self.client.testing = True
+        with app.app_context():
+            QuestionerDb().init_db(app.config['DATABASE_URI'])
+            QuestionerDb().build_all()
 
         self.user_one = {
             "firstname": "Barclay",
-            "lastname": "Koin",
+            "lastname": "Koins",
             "othername": "Sofware Dev",
+            "phoneNumber": "0703912965",
+            "username": "3333333@B",
+            "email": "barcls@mails.com",
+            "userpassword": "paSsword@2"
+        }
+
+        self.user_one_name_format = {
+            "firstname": "Barclay",
+            "lastname": "Koin",
+            "othername": "Sofware@2Dev",
             "phoneNumber": "0703912965",
             "username": "Koin253",
             "email": "barclay@koin.com",
@@ -25,17 +40,41 @@ class TestBaseCase(unittest.TestCase):
 
         self.user_two = {
             "firstname": "Derrick",
-            "lastname": "Koin",
-            "othername": "Software Dev",
+            "lastname": "Koins",
+            "othername": "3333333@C",
             "phoneNumber": "0703912965",
             "username": "Koin254",
-            "email": "derrick@koin.com",
-            "userpassword": "password"
+            "email": "derrickkoin.com",
+            "userpassword": "pA@5word"
         }
 
+        self.user_three = {
+            "firstname": "Derrick",
+            "lastname": "Koins",
+            "othername": "3333333@C",
+            "phoneNumber": "0703912965",
+            "username": "3333333@B",
+            "email": "derrickkoin.com",
+            "userpassword": "pA@5word"
+        }
+
+        self.user_four = {
+            "firstname": "Barclay",
+            "lastname": "Koins",
+            "othername": "Sofware Dev",
+            "phoneNumber": "0703912965",
+            "username": "3333333@B",
+            "email": "barcls@mails.com",
+            "userpassword": "paSswo"
+        }
         self.user_one_login = {
-            "email": "barclay@koin.com",
-            "userpassword": "password"
+            "email": "barcls@mails.com",
+            "userpassword": "paSsword@2"
+        }
+
+        self.admin_log = {
+            "email": "super@admin.com",
+            "userpassword": "Admin@254"
         }
 
         self.non_existent_user = {
@@ -44,8 +83,8 @@ class TestBaseCase(unittest.TestCase):
         }
 
         self.wrong_password = {
-            "email": "barclay@koin.com",
-            "userpassword": "password123"
+            "email": "barcls@mails.com",
+            "userpassword": "paSsword@245"
         }
 
         self.wrong_key = {
@@ -53,6 +92,16 @@ class TestBaseCase(unittest.TestCase):
             #  should be email
             "userpassword": "password"
         }
+
+    def admin_login(self):
+        """login sample admin"""
+        feedback = self.app.post('api/v2/auth/login',
+                                 data=json.dumps(self.admin_log),
+                                 content_type='application/json')
+        res = json.loads(feedback.data)
+        auth_token = res['auth']
+        print(auth_token)
+        return auth_token
 
     def tearDown(self):
         QuestionerDb.drop_all()

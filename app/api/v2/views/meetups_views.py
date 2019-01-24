@@ -53,6 +53,14 @@ class MeetupViewsResource(Resource):
                 "Please provide a topic for the Meetup"
             }, 400
 
+        for values in tags:
+            if values.strip() == "":
+                return {
+                    "status": 400,
+                    "error":
+                    "Please provide tags for the Meetup"
+                }, 400
+
         meetup = meetup_views.create_meetup(
             location=args.get('location'),
             topic=args.get('topic'),

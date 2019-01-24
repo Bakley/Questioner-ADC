@@ -1,16 +1,8 @@
 from flask_restful import Resource, reqparse
 from app.auth.v2.models import UserModel
-import json
-
 from flask_jwt_extended import create_access_token, create_refresh_token
 
 user_view = UserModel()
-
-
-# def valid_admin(username):
-#     """Validate admin"""
-#     user = UserModel.check_admin(self, email)
-#     return user
 
 
 class UserRegister(Resource):
@@ -113,21 +105,6 @@ class UserLogin(Resource):
                 "status": 400,
                 "error": "Invalid password. Please provide correct password"
             }, 400
-
-        auth_token = user_view.generate_token(
-            {
-                "check_email": user_email_exist['email']
-            },
-            {
-                "checkadmin": user_email_exist['isadmin']
-            }
-        )
-
-        if not auth_token:
-            return {
-                "status": 404,
-                "error": "Token generation failed"
-            }, 404
 
         for data in user_email_exist:
             response = {

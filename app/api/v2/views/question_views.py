@@ -43,7 +43,7 @@ class QuestionViewsResource(Resource):
             return {
                 "status": 400,
                 "error":
-                "Invalid Key field. Missing or wrongly spelled Keys, should be title and body"
+                "Invalid field. Missing or wrongly spelled Keys, should be title and body"
             }, 400
 
         # Check for user

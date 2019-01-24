@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
 from app.auth.v2.models import UserModel
 from flask_jwt_extended import create_access_token, create_refresh_token
+from app.utilities.validator_file import *
 
 user_view = UserModel()
 
@@ -38,6 +39,36 @@ class UserRegister(Resource):
             return {
                 "status": 400,
                 "error": "Invalid Key error {}".format(e)
+            }, 400
+
+        for values in firstname, lastname, othername:
+            if not check_name_format(values):
+                return {
+                    "status": 400,
+                    "message":
+                    "Name should be 5 character, and contain an Uppercase character"
+                }, 400
+
+        if not check_username_format(username):
+            return {
+                "status": 400,
+                "message":
+                "Username should be 8 character, and contain an Uppercase character, Integer and a special character"
+            }, 400
+
+        if not check_email_format(email):
+            return {
+                "status": 400,
+                "message":
+                "Email should be of format",
+                "Email Format": "name@company.[com|org|edu]"
+            }, 400
+
+        if not check_password_strength(userpassword):
+            return {
+                "status": 400,
+                "message":
+                "Password should be 8 character long. Contain special character. Has an Integer. Has a capital letter"
             }, 400
 
         access_token = create_access_token(identity=args.get('email'))

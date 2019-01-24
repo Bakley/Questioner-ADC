@@ -56,5 +56,5 @@ class CommentViewsResource(Resource):
         return {
             "status": 201,
             "data": comment,
-            "Message": "meetup successfully created"
+            "Message": "Comment successfully created"
         }, 201

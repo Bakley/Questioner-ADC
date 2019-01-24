@@ -2,7 +2,7 @@
 import json
 from flask_restful import Resource, reqparse
 
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.api.v2.models import meetup_models
 from app.utilities.validator_file import (check_for_empty_string)
 
@@ -19,9 +19,14 @@ class MeetupViewsResource(Resource):
     parser.add_argument('tags',
                         help='Tags cannot be blank', action='append')
 
-    # @jwt_required
+    @jwt_required
     def post(self):
         """Admin create a meetup"""
+        if get_jwt_identity() != "super@admin.org":
+            return{
+                "status": 403,
+                "message": "You are not authorized to create a meetup"
+            }, 403
         try:
             args = MeetupViewsResource.parser.parse_args()
             location = args.get('location')
@@ -73,7 +78,7 @@ class SpecificMeetup(Resource):
         except Exception:
             return {
                 "status": 404,
-                "error": "Url need an integer"
+                "error": "Resource Identifier need an integer"
             }, 404
         new_meetup = meetup_views.get_a_specific_meetup(id=meetup_id)
         new_meetup = json.dumps(new_meetup, default=str)
@@ -88,14 +93,20 @@ class SpecificMeetup(Resource):
             "data": new_meetup
         }, 200
 
+    @jwt_required
     def delete(self, meetup_id):
         """Method for Admin to delete a record"""
+        if get_jwt_identity() != "super@admin.org":
+            return{
+                "status": 401,
+                "message": "You are not authorized to create a meetup"
+            }
         try:
             meetup_id = int(meetup_id)
         except Exception:
             return {
                 "status": 404,
-                "error": "Url need an integer"
+                "error": "Resource Identifier need an integer"
             }, 404
         deleted_meetup = meetup_views.delete_a_specific_meetup(id=meetup_id)
 

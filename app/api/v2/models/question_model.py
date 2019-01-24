@@ -49,3 +49,16 @@ class QuestionModel:
             "question": response
         }
         return payload
+
+    def get_a_specific_question(self, id):
+        """Get one question by id"""
+
+        fetch_query = """SELECT * FROM questions WHERE questionid={}""".format(
+            id)
+        response = QuestionerDb.retrieve_all(fetch_query)
+        if not response:
+            return False
+        payload = {
+            "one_question": response
+        }
+        return payload

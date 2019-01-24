@@ -6,7 +6,10 @@ from app.api.v2.views.meetups_views import (MeetupViewsResource,
 
 from app.api.v2.views.question_views import (QuestionViewsResource,
                                              UpvoteResource,
-                                             DownvoteResource)
+                                             DownvoteResource,
+                                             SpecificQuestion)
+
+from app.api.v2.views.comment_views import CommentViewsResource
 
 version_2 = Blueprint('version2', __name__, url_prefix='/api/v2')
 
@@ -18,3 +21,5 @@ api.add_resource(UpcomingMeetups, '/meetups/upcoming')
 api.add_resource(QuestionViewsResource, '/meetups/<meetup_id>/questions')
 api.add_resource(UpvoteResource, '/questions/<questions_id>/upvote')
 api.add_resource(DownvoteResource, '/questions/<questions_id>/downvote')
+api.add_resource(SpecificQuestion, '/questions/<questions_id>')
+api.add_resource(CommentViewsResource, '/comment')

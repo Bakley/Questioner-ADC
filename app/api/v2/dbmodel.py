@@ -64,8 +64,6 @@ class QuestionerDb:
             CREATE TABLE IF NOT EXISTS comments(
             commentId serial PRIMARY KEY NOT NULL,
             question INTEGER NOT NULL,
-            title varchar NOT NULL,
-            body varchar NOT NULL,
             FOREIGN KEY (question) REFERENCES questions(questionId)\
             ON UPDATE CASCADE ON DELETE CASCADE,
             comment varchar NOT NULL
@@ -187,5 +185,5 @@ class QuestionerDb:
         Destroys tables form the database
         """
         cls.cur.execute(
-            """DROP TABLE IF EXISTS users, meetups, questions, rsvps, comments CASCADE;""")
+            """DROP TABLE IF EXISTS users, meetups, questions, rsvps, comments, votes CASCADE;""")
         cls.conn.commit()

@@ -167,3 +167,30 @@ class DownvoteResource(Resource):
             "status": 200,
             "data": new_question_downvote
         }
+
+
+class SpecificQuestion(Resource):
+    """Get a specific question"""
+
+    @jwt_required
+    def get(self, questions_id):
+        """Method to get a specific question"""
+        try:
+            questions_id = int(questions_id)
+        except Exception:
+            return {
+                "status": 404,
+                "error": "Url need an integer"
+            }, 404
+        new_question = question_views.get_a_specific_question(id=questions_id)
+        new_question = json.dumps(new_question, default=str)
+        new_question = json.loads(new_question)
+        if not new_question:
+            return {
+                "status": 404,
+                "error": "Question of id {} not found".format(questions_id)
+            }, 404
+        return {
+            "status": 200,
+            "data": new_question
+        }, 200

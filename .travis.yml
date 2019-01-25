@@ -18,7 +18,7 @@ before_script:
 script:
   - export FLASK_ENV="testing"
   - export JWT_SECRET_KEY="hellouser123"
-  - export DEV_DB_URI="dbname='questioners' host='localhost' port='5432' user='koin254' password='password'"
+  - export TEST_DB_URI="dbname='questioners' host='localhost' port='5432' user='koin254' password='password'"
 
   - pytest --cov-report term-missing --cov=app
 

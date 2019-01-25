@@ -1,0 +1,30 @@
+language: python
+
+python:
+  - 3.6
+
+install:
+  - pip install -r requirements.txt
+  - pip install coveralls
+  - pip install codecov
+
+services:
+  - postgresql
+
+before_script:
+- psql -c "create user koin254 WITH PASSWORD 'password';" -U postgres
+- psql -c "create database questioners;" -U postgres
+
+script:
+  - export FLASK_ENV="development"
+  - export JWT_SECRET_KEY="hellouser123"
+  - export DEV_DB_URI="dbname='questioners' host='localhost' port='5432' user='koin254' password='password'"
+
+  - pytest --cov-report term-missing --cov=app
+
+after_success:
+  - coveralls
+
+
+cache:
+  - pip

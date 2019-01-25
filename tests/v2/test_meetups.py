@@ -8,18 +8,6 @@ class MeetupTestCase(TestBaseCase):
     test class for the meetup endpoint
     """
 
-    def test_meetup_created_successfully(self):
-        """Test if a meetup is posted"""
-        auth_token = self.admin_login()
-
-        response = self.client.post('/auth/v2/meetups',
-                                    data=json.dumps(self.meetup_one),
-                                    headers=dict(
-                                        Authorization="Bearer " + auth_token),
-                                    content_type='application/json')
-
-        self.assertEqual(response.status_code, 201)
-
     def test_user_create_a_meetup(self):
         """Test user getting a meetup"""
         auth_token = self.user_login()
@@ -46,8 +34,6 @@ class MeetupTestCase(TestBaseCase):
                                           Authorization="Bearer " + auth_token),
                                       content_type='application/json')
         res = json.loads(response.data.decode())
-        # import pdb
-        # pdb.set_trace()
 
         self.assertEqual(response.status_code, 403)
         self.assertEqual(

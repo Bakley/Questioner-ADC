@@ -36,15 +36,31 @@ class AuthLoginTestCase(TestBaseCase):
                                       data=json.dumps(self.wrong_password),
                                       content_type='application/json')
 
+        res = json.loads(response_1.data.decode())
+
         self.assertEqual(response_1.status_code, 400)
+        self.assertEqual(
+            res["error"],
+            "Invalid password. Please provide correct password")
 
     def test_for_key_error(self):
         """Test for a wrong key"""
+
+        # sign user first
+        signup_res2 = self.client.post('/auth/v2/signup',
+                                       data=json.dumps(self.user_one),
+                                       content_type='application/json')
+        self.assertEqual(signup_res2.status_code, 201)
+
         response_2 = self.client.post('/auth/v2/login',
                                       data=json.dumps(self.wrong_key),
                                       content_type='application/json')
 
+        res = json.loads(response_2.data.decode())
         self.assertEqual(response_2.status_code, 400)
+        self.assertEqual(
+            res["error"],
+            "Invalid Key error. Should be email and password")
 
     def test_login_for_non_existent_user(self):
         """Test if non existent user can login"""
@@ -52,4 +68,7 @@ class AuthLoginTestCase(TestBaseCase):
                                       data=json.dumps(self.non_existent_user),
                                       content_type='application/json')
         res = json.loads(response_3.data.decode())
-        self.assertEqual(res["status_code"], 404)
+        self.assertEqual(res["status"], 404)
+        self.assertEqual(
+            res["error"],
+            "Email needed to login")

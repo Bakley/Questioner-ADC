@@ -93,6 +93,7 @@ class RspvsResources(Resource):
 class GetRspvs(Resource):
     """Class to get all RSPVS"""
 
+    @jwt_required
     def get(self, rspv_id):
         """Method to get all the RSPVS created"""
         try:

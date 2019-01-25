@@ -7,6 +7,7 @@ from app.api.v2 import version_2
 from app.api.v2.dbmodel import QuestionerDb
 from config import app_config
 from flask_jwt_extended import JWTManager
+from datetime import timedelta
 
 
 def create_app(config_name):
@@ -22,6 +23,7 @@ def create_app(config_name):
 
     app.register_blueprint(version_2auth)
     app.register_blueprint(version_2)
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=6)
     app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY')
 
     jwt = JWTManager(app)

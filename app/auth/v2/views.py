@@ -116,9 +116,9 @@ class UserLogin(Resource):
             userpassword = args.get('userpassword')
         except Exception:
             return {
-                "status": 404,
+                "status": 400,
                 "error": "Invalid Key error. Should be email and password"
-            }, 404
+            }, 400
 
         user_email_exist = user_view.get_user_by_email(email)
         # Returns the user info in a dictionary model

@@ -128,17 +128,6 @@ class QuestionerDb:
             print(e)
 
     @classmethod
-    def persist_to_db(cls, query_string, tuple_data):
-        """
-        method that saves queries into the database
-        """
-        try:
-            cls.cur.execute(query_string, tuple_data)
-            cls.conn.commit()
-        except Exception as e:
-            print(e)
-
-    @classmethod
     def check_email(cls, query_string, tuple_data):
         """
         method that saves queries into the database

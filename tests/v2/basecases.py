@@ -28,6 +28,17 @@ class TestBaseCase(unittest.TestCase):
             "userpassword": "paSsword@2"
         }
 
+        self.admin_one = {
+            "firstname": "Barclay",
+            "lastname": "Koins",
+            "othername": "Sofware Dev",
+            "phoneNumber": "0703912965",
+            "username": "3333333@B",
+            "email": "barcls@mails.com",
+            "userpassword": "paSsword@2",
+            "isAdmin": "true"
+        }
+
         self.user_one_name_format = {
             "firstname": "Barclay",
             "lastname": "Koin",
@@ -93,14 +104,56 @@ class TestBaseCase(unittest.TestCase):
             "userpassword": "password"
         }
 
+        self.meetup_one = {
+            "location": "Ihub",
+            "topic": "Google I/O",
+            "tags": ["goggle", "Ihub"]
+        }
+
+        self.question_one = {
+            "title": "While the be food?",
+            "body": "It will be a long day",
+            "userId": "3",
+            "meetupId": 6
+        }
+
+        self.comment_one = {
+            "comment": "I love chapati",
+            "question": "1"
+        }
+
+        self.rspv_one = {
+            "response": "No",
+            "createdBy": 1,
+            "meetupId": 4
+        }
+
+        self.rspv_two = {
+            "response": "No",
+            "createdBy": 1,
+            "meetupId": 1
+        }
+
     def admin_login(self):
         """login sample admin"""
-        feedback = self.app.post('api/v2/auth/login',
-                                 data=json.dumps(self.admin_log),
-                                 content_type='application/json')
+        feedback = self.client.post('/auth/v2/login',
+                                    data=json.dumps(self.admin_login),
+                                    content_type='application/json')
         res = json.loads(feedback.data)
-        auth_token = res['auth']
-        print(auth_token)
+        import pdb
+        pdb.set_trace()
+
+        auth_token = res['Token']
+        return auth_token
+
+    def user_login(self):
+        """login sample user"""
+        feedback = self.client.post('/auth/v2/signup',
+                                    data=json.dumps(self.user_one),
+                                    content_type='application/json')
+        res = json.loads(feedback.data)
+
+        auth_token = res['Token']
         return auth_token
 
     def tearDown(self):

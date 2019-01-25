@@ -106,9 +106,9 @@ class SpecificMeetup(Resource):
         """Method for Admin to delete a record"""
         if get_jwt_identity() != "super@admin.org":
             return{
-                "status": 401,
-                "message": "You are not authorized to create a meetup"
-            }
+                "status": 403,
+                "message": "You are not authorized to delete a meetup"
+            }, 403
         try:
             meetup_id = int(meetup_id)
         except Exception:

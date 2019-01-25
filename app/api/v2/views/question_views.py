@@ -48,14 +48,13 @@ class QuestionViewsResource(Resource):
 
         # Check for user
         question_meetup = meetup_views.get_a_specific_meetup_id(id=meetup_id)
-        print("Qst meetup", question_meetup)
         if not question_meetup:
             return {
                 "status": 404,
                 "error": "Meetup of id {} not found".format(meetup_id)
             }, 404
 
-            # Check meetup passed by user
+        # Check meetup passed by user
         passed_meetup = meetup_views.get_a_specific_meetup_id(args['meetupId'])
         print("Passed meetup", passed_meetup)
         if not passed_meetup:
@@ -99,8 +98,6 @@ class QuestionViewsResource(Resource):
             userId=args.get('userId'),
             meetupId=args.get('meetupId')
         )
-
-        print("QuestionPost", question)
 
         return {
             "status": 201,
